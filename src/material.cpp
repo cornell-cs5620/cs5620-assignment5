@@ -6,8 +6,21 @@
  */
 
 #include "material.h"
-#include "canvas.h"
 #include "light.h"
+
+GLuint whitehdl::vertex = 0;
+GLuint whitehdl::fragment = 0;
+GLuint whitehdl::program = 0;
+
+GLuint solidhdl::vertex = 0;
+GLuint solidhdl::fragment = 0;
+GLuint solidhdl::program = 0;
+
+GLuint brickhdl::vertex = 0;
+GLuint brickhdl::fragment = 0;
+GLuint brickhdl::program = 0;
+
+extern string working_directory;
 
 materialhdl::materialhdl()
 {
@@ -20,12 +33,22 @@ materialhdl::~materialhdl()
 
 solidhdl::solidhdl()
 {
-	type = "uniform";
+	type = "solid";
 	emission = vec3f(0.0, 0.0, 0.0);
 	ambient = vec3f(0.1, 0.1, 0.1);
 	diffuse = vec3f(1.0, 1.0, 1.0);
 	specular = vec3f(1.0, 1.0, 1.0);
 	shininess = 1.0;
+
+	if (vertex == 0 && fragment == 0 && program == 0)
+	{
+		program = glCreateProgram();
+		vertex = load_shader_file(working_directory + "res/"+ type + ".vx", GL_VERTEX_SHADER);
+		fragment = load_shader_file(working_directory + "res/"+ type + ".ft", GL_FRAGMENT_SHADER);
+		glAttachShader(program, vertex);
+		glAttachShader(program, fragment);
+		glLinkProgram(program);
+	}
 }
 
 solidhdl::~solidhdl()
@@ -33,86 +56,39 @@ solidhdl::~solidhdl()
 
 }
 
-vec3f solidhdl::shade_vertex(canvashdl *canvas, vec3f vertex, vec3f normal, vector<float> &varying) const
+void solidhdl::apply(const vector<lighthdl*> &lights)
 {
-	vec4f eye_space_vertex = canvas->matrices[canvashdl::modelview_matrix]*homogenize(vertex);
+	glUseProgram(program);
+	glUniform3fv(glGetUniformLocation(program, "emission"), 1, emission.data);
+	glUniform3fv(glGetUniformLocation(program, "ambient"), 1, ambient.data);
+	glUniform3fv(glGetUniformLocation(program, "diffuse"), 1, diffuse.data);
+	glUniform3fv(glGetUniformLocation(program, "specular"), 1, specular.data);
+	glUniform1f(glGetUniformLocation(program, "shininess"), shininess);
 
-	if (canvas->shade_model == canvashdl::flat || canvas->shade_model == canvashdl::gouraud)
-	{
-		const vector<lighthdl*> *lights;
-
-		canvas->get_uniform("lights", lights);
-
-		vec3f color(1.0, 1.0, 1.0);
-		if (mag2(normal) > 0.0)
+	int d = 0, p = 0, s = 0;
+	for (int i = 0; i < (int)lights.size(); i++)
+		if (lights[i] != NULL)
 		{
-			vec3f eye_space_normal = canvas->matrices[canvashdl::normal_matrix]*(vec4f)normal;
-
-			vec3f light_ambient(0.0, 0.0, 0.0);
-			vec3f light_diffuse(0.0, 0.0, 0.0);
-			vec3f light_specular(0.0, 0.0, 0.0);
-
-			for (int j = 0; j < lights->size(); j++)
-				if (lights->at(j) != NULL)
-					lights->at(j)->shade(light_ambient, light_diffuse, light_specular, eye_space_vertex, eye_space_normal, shininess);
-
-			color = clamp(emission + ambient*light_ambient + diffuse*light_diffuse + specular*light_specular, 0.0f, 1.0f);
+			if (lights[i]->type[0] == 'd')
+			{
+				lights[i]->apply(string(1, lights[i]->type[0]) + "lights[" + to_string(d) + "]", program);
+				d++;
+			}
+			else if (lights[i]->type[0] == 'p')
+			{
+				lights[i]->apply(string(1, lights[i]->type[0]) + "lights[" + to_string(p) + "]", program);
+				p++;
+			}
+			else if (lights[i]->type[0] == 's')
+			{
+				lights[i]->apply(string(1, lights[i]->type[0]) + "lights[" + to_string(s) + "]", program);
+				s++;
+			}
 		}
 
-		varying.push_back(color[0]);
-		varying.push_back(color[1]);
-		varying.push_back(color[2]);
-	}
-	else if (canvas->shade_model == canvashdl::phong)
-    {
-		for (int i = 0; i < 3; i++)
-			varying.push_back(vertex[i]);
-        for (int i = 0; i < 3; i++)
-            varying.push_back(normal[i]);
-    }
-
-	eye_space_vertex = canvas->matrices[canvashdl::projection_matrix]*eye_space_vertex;
-	eye_space_vertex /= eye_space_vertex[3];
-	return eye_space_vertex;
-}
-
-vec3f solidhdl::shade_fragment(canvashdl *canvas, vector<float> &varying) const
-{
-	if (canvas->shade_model == canvashdl::flat || canvas->shade_model == canvashdl::gouraud)
-		return vec3f(varying[0], varying[1], varying[2]);
-	if (canvas->shade_model == canvashdl::phong)
-	{
-		vec3f vertex = vec3f(varying[0], varying[1], varying[2]);
-		vec3f normal = vec3f(varying[3], varying[4], varying[5]);
-
-		varying.erase(varying.begin(), varying.begin() + 6);
-
-		vec3f light_ambient(0.0, 0.0, 0.0);
-		vec3f light_diffuse(0.0, 0.0, 0.0);
-		vec3f light_specular(0.0, 0.0, 0.0);
-
-		const vector<lighthdl*> *lights;
-		canvas->get_uniform("lights", lights);
-
-		vec3f eye_coord_vertex = canvas->matrices[canvashdl::modelview_matrix]*homogenize(vertex);
-		vec3f eye_coord_normal = canvas->matrices[canvashdl::normal_matrix]*(vec4f)normal;
-
-		float m = mag2(eye_coord_normal);
-
-		if (m > 0.0)
-		{
-			eye_coord_normal /= sqrt(m);
-			for (int j = 0; j < lights->size(); j++)
-				if (lights->at(j) != NULL)
-                    lights->at(j)->shade(light_ambient, light_diffuse, light_specular, eye_coord_vertex, eye_coord_normal, shininess);
-            
-			return clamp(emission + ambient*light_ambient + diffuse*light_diffuse + specular*light_specular, 0.0f, 1.0f);
-		}
-	}
-	else if (canvas->shade_model == canvashdl::none)
-		return clamp(emission + ambient + diffuse, 0.0f, 1.0f);
-
-	return vec3f(1.0, 1.0, 1.0);
+	glUniform1i(glGetUniformLocation(program, "num_dlights"), d);
+	glUniform1i(glGetUniformLocation(program, "num_plights"), p);
+	glUniform1i(glGetUniformLocation(program, "num_slights"), s);
 }
 
 materialhdl *solidhdl::clone() const
@@ -127,107 +103,91 @@ materialhdl *solidhdl::clone() const
 	return result;
 }
 
-nonsolidhdl::nonsolidhdl()
+whitehdl::whitehdl()
 {
-	type = "non_uniform";
-}
+	type = "white";
 
-nonsolidhdl::~nonsolidhdl()
-{
-
-}
-
-vec3f nonsolidhdl::shade_vertex(canvashdl *canvas, vec3f vertex, vec3f normal, vector<float> &varying) const
-{
-	vec4f eye_space_vertex = canvas->matrices[canvashdl::modelview_matrix]*homogenize(vertex);
-	float mult = (float)(fmod(fabs(vertex[1] + 1000.0)*3.0, 1.0) > 0.5);
-	vec3f scale(mult, 0.0f, 1.0-mult);
-
-	if (canvas->shade_model == canvashdl::flat || canvas->shade_model == canvashdl::gouraud)
+	if (vertex == 0 && fragment == 0 && program == 0)
 	{
-		const vector<lighthdl*> *lights;
+		program = glCreateProgram();
+		vertex = load_shader_file(working_directory + "res/"+ type + ".vx", GL_VERTEX_SHADER);
+		fragment = load_shader_file(working_directory + "res/"+ type + ".ft", GL_FRAGMENT_SHADER);
+		glAttachShader(program, vertex);
+		glAttachShader(program, fragment);
+		glLinkProgram(program);
+	}
+}
 
-		canvas->get_uniform("lights", lights);
+whitehdl::~whitehdl()
+{
 
-		vec3f color(1.0, 1.0, 1.0);
-		if (mag2(normal) > 0.0)
+}
+
+void whitehdl::apply(const vector<lighthdl*> &lights)
+{
+	glUseProgram(program);
+}
+
+materialhdl *whitehdl::clone() const
+{
+	whitehdl *result = new whitehdl();
+	result->type = type;
+	return result;
+}
+
+brickhdl::brickhdl()
+{
+	type = "brick";
+
+	if (vertex == 0 && fragment == 0 && program == 0)
+	{
+		program = glCreateProgram();
+		vertex = load_shader_file(working_directory + "res/"+ type + ".vx", GL_VERTEX_SHADER);
+		fragment = load_shader_file(working_directory + "res/"+ type + ".ft", GL_FRAGMENT_SHADER);
+		glAttachShader(program, vertex);
+		glAttachShader(program, fragment);
+		glLinkProgram(program);
+	}
+}
+
+brickhdl::~brickhdl()
+{
+
+}
+
+void brickhdl::apply(const vector<lighthdl*> &lights)
+{
+	glUseProgram(program);
+
+	int d = 0, p = 0, s = 0;
+	for (int i = 0; i < (int)lights.size(); i++)
+		if (lights[i] != NULL)
 		{
-			vec3f eye_space_normal = canvas->matrices[canvashdl::normal_matrix]*(vec4f)normal;
-
-			vec3f light_ambient(0.0, 0.0, 0.0);
-			vec3f light_diffuse(0.0, 0.0, 0.0);
-			vec3f light_specular(0.0, 0.0, 0.0);
-
-			for (int j = 0; j < lights->size(); j++)
-				if (lights->at(j) != NULL)
-					lights->at(j)->shade(light_ambient, light_diffuse, light_specular, eye_space_vertex, eye_space_normal, 5.0);
-
-			color = clamp(scale*light_ambient + scale*light_diffuse + scale*light_specular, 0.0f, 1.0f);
+			if (lights[i]->type[0] == 'd')
+			{
+				lights[i]->apply(string(1, lights[i]->type[0]) + "lights[" + to_string(d) + "]", program);
+				d++;
+			}
+			else if (lights[i]->type[0] == 'p')
+			{
+				lights[i]->apply(string(1, lights[i]->type[0]) + "lights[" + to_string(p) + "]", program);
+				p++;
+			}
+			else if (lights[i]->type[0] == 's')
+			{
+				lights[i]->apply(string(1, lights[i]->type[0]) + "lights[" + to_string(s) + "]", program);
+				s++;
+			}
 		}
 
-		varying.push_back(color[0]);
-		varying.push_back(color[1]);
-		varying.push_back(color[2]);
-	}
-	else if (canvas->shade_model == canvashdl::phong)
-		for (int i = 0; i < 6; i++)
-			varying.push_back(vertex[i]);
-	else if (canvas->shade_model == canvashdl::none)
-		varying.push_back(vertex[1]);
-
-	eye_space_vertex = canvas->matrices[canvashdl::projection_matrix]*eye_space_vertex;
-	eye_space_vertex /= eye_space_vertex[3];
-	return eye_space_vertex;
+	glUniform1i(glGetUniformLocation(program, "num_dlights"), d);
+	glUniform1i(glGetUniformLocation(program, "num_plights"), p);
+	glUniform1i(glGetUniformLocation(program, "num_slights"), s);
 }
 
-vec3f nonsolidhdl::shade_fragment(canvashdl *canvas, vector<float> &varying) const
+materialhdl *brickhdl::clone() const
 {
-	if (canvas->shade_model == canvashdl::flat || canvas->shade_model == canvashdl::gouraud)
-		return vec3f(varying[0], varying[1], varying[2]);
-	if (canvas->shade_model == canvashdl::phong)
-	{
-		vec3f vertex = vec3f(varying[0], varying[1], varying[2]);
-		vec3f normal = vec3f(varying[3], varying[4], varying[5]);
-
-		varying.erase(varying.begin(), varying.begin() + 6);
-
-		float mult = (float)(fmod(fabs(vertex[1] + 1000.0)*3.0, 1.0) > 0.5);
-		vec3f scale(mult, 0.0f, 1.0-mult);
-
-		vec3f light_ambient(0.0, 0.0, 0.0);
-		vec3f light_diffuse(0.0, 0.0, 0.0);
-		vec3f light_specular(0.0, 0.0, 0.0);
-
-		const vector<lighthdl*> *lights;
-		canvas->get_uniform("lights", lights);
-
-		vec3f eye_coord_vertex = canvas->matrices[canvashdl::modelview_matrix]*homogenize(vertex);
-		vec3f eye_coord_normal = canvas->matrices[canvashdl::normal_matrix]*(vec4f)normal;
-
-		float m = mag2(eye_coord_normal);
-
-		if (m > 0.0)
-		{
-			eye_coord_normal /= sqrt(m);
-			for (int j = 0; j < lights->size(); j++)
-				if (lights->at(j) != NULL)
-					lights->at(j)->shade(light_ambient, light_diffuse, light_specular, eye_coord_vertex, eye_coord_normal, 5.0);
-
-			return clamp(scale*light_ambient + scale*light_diffuse + scale*light_specular, 0.0f, 1.0f);
-		}
-	}
-	else if (canvas->shade_model == canvashdl::none)
-	{
-		float mult = (float)(fmod(fabs(varying[0] + 1000.0)*3.0, 1.0) > 0.5);
-		return clamp(vec3f(mult, 0.0f, 1.0-mult), 0.0f, 1.0f);
-	}
-
-	return vec3f(1.0, 1.0, 1.0);
-}
-
-materialhdl *nonsolidhdl::clone() const
-{
-	nonsolidhdl *result = new nonsolidhdl();
+	brickhdl *result = new brickhdl();
 	result->type = type;
 	return result;
 }

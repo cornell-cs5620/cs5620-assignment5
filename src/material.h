@@ -7,13 +7,14 @@
 
 #include "core/geometry.h"
 #include "standard.h"
+#include "opengl.h"
 
 using namespace core;
 
 #ifndef material_h
 #define material_h
 
-struct canvashdl;
+struct lighthdl;
 
 struct materialhdl
 {
@@ -22,9 +23,21 @@ struct materialhdl
 
 	string type;
 
-	virtual vec3f shade_vertex(canvashdl *canvas, vec3f vertex, vec3f normal, vector<float> &varying) const = 0;
-	virtual vec3f shade_fragment(canvashdl *canvas, vector<float> &varying) const = 0;
+	virtual void apply(const vector<lighthdl*> &lights) = 0;
 	virtual materialhdl *clone() const = 0;
+};
+
+struct whitehdl : materialhdl
+{
+	whitehdl();
+	~whitehdl();
+
+	static GLuint vertex;
+	static GLuint fragment;
+	static GLuint program;
+
+	void apply(const vector<lighthdl*> &lights);
+	materialhdl *clone() const;
 };
 
 struct solidhdl : materialhdl
@@ -38,18 +51,25 @@ struct solidhdl : materialhdl
 	vec3f specular;
 	float shininess;
 
-	vec3f shade_vertex(canvashdl *canvas, vec3f vertex, vec3f normal, vector<float> &varying) const;
-	vec3f shade_fragment(canvashdl *canvas, vector<float> &varying) const;
+	static GLuint vertex;
+	static GLuint fragment;
+	static GLuint program;
+
+	void apply(const vector<lighthdl*> &lights);
 	materialhdl *clone() const;
 };
 
-struct nonsolidhdl : materialhdl
-{
-	nonsolidhdl();
-	~nonsolidhdl();
 
-	vec3f shade_vertex(canvashdl *canvas, vec3f vertex, vec3f normal, vector<float> &varying) const;
-	vec3f shade_fragment(canvashdl *canvas, vector<float> &varying) const;
+struct brickhdl : materialhdl
+{
+	brickhdl();
+	~brickhdl();
+
+	static GLuint vertex;
+	static GLuint fragment;
+	static GLuint program;
+
+	void apply(const vector<lighthdl*> &lights);
 	materialhdl *clone() const;
 };
 

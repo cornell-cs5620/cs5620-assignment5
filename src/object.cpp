@@ -6,7 +6,6 @@
  */
 
 #include "object.h"
-#include "canvas.h"
 
 rigidhdl::rigidhdl()
 {
@@ -22,9 +21,21 @@ rigidhdl::~rigidhdl()
  *
  * Draw a rigid body.
  */
-void rigidhdl::draw(canvashdl *canvas)
+void rigidhdl::draw()
 {
-	canvas->draw_triangles(geometry, indices);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	glVertexPointer(3, GL_FLOAT, sizeof(float)*8, ((float*)geometry.data()));
+	glNormalPointer(GL_FLOAT, sizeof(float)*8, ((float*)geometry.data()) + 3);
+	glTexCoordPointer(2, GL_FLOAT, sizeof(float)*8, ((float*)geometry.data()) + 6);
+
+	glDrawElements(GL_TRIANGLES, (int)indices.size(), GL_UNSIGNED_INT, indices.data());
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
 objecthdl::objecthdl()
@@ -63,25 +74,25 @@ objecthdl::~objecthdl()
  * Draw the model. Don't forget to apply the transformations necessary
  * for position, orientation, and scale.
  */
-void objecthdl::draw(canvashdl *canvas)
+void objecthdl::draw(const vector<lighthdl*> &lights)
 {
-	canvas->translate(position);
-	canvas->rotate(orientation[0], vec3f(1.0, 0.0, 0.0));
-	canvas->rotate(orientation[1], vec3f(0.0, 1.0, 0.0));
-	canvas->rotate(orientation[2], vec3f(0.0, 0.0, 1.0));
-	canvas->scale(vec3f(scale, scale, scale));
+	glPushMatrix();
+	glTranslatef(position[0], position[1], position[2]);
+	glRotatef(radtodeg(orientation[0]), 1.0, 0.0, 0.0);
+	glRotatef(radtodeg(orientation[1]), 0.0, 1.0, 0.0);
+	glRotatef(radtodeg(orientation[2]), 0.0, 0.0, 1.0);
+	glScalef(scale, scale, scale);
 
 	for (int i = 0; i < rigid.size(); i++)
 	{
-		canvas->uniform["material"] = material[rigid[i].material];
-		rigid[i].draw(canvas);
+		if (material.find(rigid[i].material) != material.end())
+			material[rigid[i].material]->apply(lights);
+		else
+			whitehdl().apply(lights);
+		rigid[i].draw();
 	}
 
-	canvas->scale(vec3f(1.0/scale, 1.0/scale, 1.0/scale));
-	canvas->rotate(-orientation[2], vec3f(0.0, 0.0, 1.0));
-	canvas->rotate(-orientation[1], vec3f(0.0, 1.0, 0.0));
-	canvas->rotate(-orientation[0], vec3f(1.0, 0.0, 0.0));
-	canvas->translate(-position);
+	glPopMatrix();
 }
 
 /* draw_bound
@@ -89,13 +100,22 @@ void objecthdl::draw(canvashdl *canvas)
  * Create a representation for the bounding box and
  * render it.
  */
-void objecthdl::draw_bound(canvashdl *canvas)
+void objecthdl::draw_bound()
 {
-	canvas->translate(position);
-	canvas->rotate(orientation[0], vec3f(1.0, 0.0, 0.0));
-	canvas->rotate(orientation[1], vec3f(0.0, 1.0, 0.0));
-	canvas->rotate(orientation[2], vec3f(0.0, 0.0, 1.0));
-	canvas->scale(vec3f(scale, scale, scale));
+	glPushMatrix();
+	glTranslatef(position[0], position[1], position[2]);
+	glRotatef(radtodeg(orientation[0]), 1.0, 0.0, 0.0);
+	glRotatef(radtodeg(orientation[1]), 0.0, 1.0, 0.0);
+	glRotatef(radtodeg(orientation[2]), 0.0, 0.0, 1.0);
+	glScalef(scale, scale, scale);
+
+	bound[0] -= 0.005;
+	bound[1] += 0.005;
+	bound[2] -= 0.005;
+	bound[3] += 0.005;
+	bound[4] -= 0.005;
+	bound[5] += 0.005;
+
 	vector<vec8f> bound_geometry;
 	vector<int> bound_indices;
 	bound_geometry.reserve(8);
@@ -117,13 +137,31 @@ void objecthdl::draw_bound(canvashdl *canvas)
 		bound_indices.push_back(i);
 		bound_indices.push_back(4+i);
 	}
-	canvas->uniform["material"] = NULL;
-	canvas->draw_lines(bound_geometry, bound_indices);
-	canvas->scale(vec3f(1.0/scale, 1.0/scale, 1.0/scale));
-	canvas->rotate(-orientation[2], vec3f(0.0, 0.0, 1.0));
-	canvas->rotate(-orientation[1], vec3f(0.0, 1.0, 0.0));
-	canvas->rotate(-orientation[0], vec3f(1.0, 0.0, 0.0));
-	canvas->translate(-position);
+
+	whitehdl().apply(vector<lighthdl*>());
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	glVertexPointer(3, GL_FLOAT, sizeof(float)*8, ((float*)bound_geometry.data()));
+	glNormalPointer(GL_FLOAT, sizeof(float)*8, ((float*)bound_geometry.data()) + 3);
+	glTexCoordPointer(2, GL_FLOAT, sizeof(float)*8, ((float*)bound_geometry.data()) + 6);
+
+	glDrawElements(GL_LINES, (int)bound_indices.size(), GL_UNSIGNED_INT, bound_indices.data());
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	glPopMatrix();
+
+	bound[0] += 0.005;
+	bound[1] -= 0.005;
+	bound[2] += 0.005;
+	bound[3] -= 0.005;
+	bound[4] += 0.005;
+	bound[5] -= 0.005;
 }
 
 /* draw_normals
@@ -132,7 +170,7 @@ void objecthdl::draw_bound(canvashdl *canvas)
  * If face is false, render the vertex normals. Otherwise,
  * calculate the normals for each face and render those.
  */
-void objecthdl::draw_normals(canvashdl *canvas, bool face)
+void objecthdl::draw_normals(bool face)
 {
 	float radius = 0.0;
 	for (int i = 0; i < 6; i++)
@@ -142,11 +180,13 @@ void objecthdl::draw_normals(canvashdl *canvas, bool face)
 	vector<vec8f> normal_geometry;
 	vector<int> normal_indices;
 
-	canvas->translate(position);
-	canvas->rotate(orientation[0], vec3f(1.0, 0.0, 0.0));
-	canvas->rotate(orientation[1], vec3f(0.0, 1.0, 0.0));
-	canvas->rotate(orientation[2], vec3f(0.0, 0.0, 1.0));
-	canvas->scale(vec3f(scale, scale, scale));
+	glPushMatrix();
+	glTranslatef(position[0], position[1], position[2]);
+	glRotatef(radtodeg(orientation[0]), 1.0, 0.0, 0.0);
+	glRotatef(radtodeg(orientation[1]), 0.0, 1.0, 0.0);
+	glRotatef(radtodeg(orientation[2]), 0.0, 0.0, 1.0);
+	glScalef(scale, scale, scale);
+
 	for (int i = 0; i < rigid.size(); i++)
 	{
 		if (!face)
@@ -181,14 +221,25 @@ void objecthdl::draw_normals(canvashdl *canvas, bool face)
 			}
 		}
 
-		canvas->uniform["material"] = NULL;
-		canvas->draw_lines(normal_geometry, normal_indices);
+		whitehdl().apply(vector<lighthdl*>());
+
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_NORMAL_ARRAY);
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+		glVertexPointer(3, GL_FLOAT, sizeof(float)*8, ((float*)normal_geometry.data()));
+		glNormalPointer(GL_FLOAT, sizeof(float)*8, ((float*)normal_geometry.data()) + 3);
+		glTexCoordPointer(2, GL_FLOAT, sizeof(float)*8, ((float*)normal_geometry.data()) + 6);
+
+		glDrawElements(GL_LINES, (int)normal_indices.size(), GL_UNSIGNED_INT, normal_indices.data());
+
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_NORMAL_ARRAY);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
 		normal_geometry.clear();
 		normal_indices.clear();
 	}
-	canvas->scale(vec3f(1.0/scale, 1.0/scale, 1.0/scale));
-	canvas->rotate(-orientation[2], vec3f(0.0, 0.0, 1.0));
-	canvas->rotate(-orientation[1], vec3f(0.0, 1.0, 0.0));
-	canvas->rotate(-orientation[0], vec3f(1.0, 0.0, 0.0));
-	canvas->translate(-position);
+
+	glPopMatrix();
 }

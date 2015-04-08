@@ -8,6 +8,7 @@
 #include "core/geometry.h"
 #include "core/color.h"
 #include "standard.h"
+#include "opengl.h"
 using namespace core;
 
 #ifndef light_h
@@ -30,8 +31,8 @@ struct lighthdl
 	vec3f diffuse;
 	vec3f specular;
 
-	virtual void update(canvashdl *canvas) = 0;
-	virtual void shade(vec3f &ambient, vec3f &diffuse, vec3f &specular, vec3f vertex, vec3f normal, float shininess) const = 0;
+	virtual void update() = 0;
+	virtual void apply(string name, GLuint program) = 0;
 };
 
 struct directionalhdl : lighthdl
@@ -43,8 +44,8 @@ struct directionalhdl : lighthdl
 	// Updated
 	vec3f direction;
 
-	void update(canvashdl *canvas);
-	void shade(vec3f &ambient, vec3f &diffuse, vec3f &specular, vec3f vertex, vec3f normal, float shininess) const;
+	void update();
+	void apply(string name, GLuint program);
 };
 
 struct pointhdl : lighthdl
@@ -59,8 +60,8 @@ struct pointhdl : lighthdl
 	// Updated
 	vec3f position;
 
-	void update(canvashdl *canvas);
-	void shade(vec3f &ambient, vec3f &diffuse, vec3f &specular, vec3f vertex, vec3f normal, float shininess) const;
+	void update();
+	void apply(string name, GLuint program);
 };
 
 struct spothdl : lighthdl
@@ -78,8 +79,8 @@ struct spothdl : lighthdl
 	vec3f position;
 	vec3f direction;
 
-	void update(canvashdl *canvas);
-	void shade(vec3f &ambient, vec3f &diffuse, vec3f &specular, vec3f vertex, vec3f normal, float shininess) const;
+	void update();
+	void apply(string name, GLuint program);
 };
 
 #endif
