@@ -216,7 +216,7 @@ texturehdl::texturehdl()
 
 		unsigned error;
 		unsigned char* image;
-		size_t width, height;
+		unsigned int width, height;
 		const char* filename = (working_directory + "res/texture.png").c_str();
 
 		error = lodepng_decode32_file(&image, &width, &height, filename);
