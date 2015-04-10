@@ -73,4 +73,21 @@ struct brickhdl : materialhdl
 	materialhdl *clone() const;
 };
 
+struct texturehdl : materialhdl
+{
+	texturehdl();
+	~texturehdl();
+
+	float shininess;
+
+	static GLuint vertex;
+	static GLuint fragment;
+	static GLuint program;
+
+	static GLuint texture;
+
+	void apply(const vector<lighthdl*> &lights);
+	materialhdl *clone() const;
+};
+
 #endif

@@ -734,7 +734,7 @@ void object_menu(int num)
 		{
 			if (i->second != NULL)
 				delete i->second;
-			i->second = new brickhdl();
+			i->second = new texturehdl();
 		}
 		glutPostRedisplay();
 	}
@@ -744,11 +744,21 @@ void object_menu(int num)
 		{
 			if (i->second != NULL)
 				delete i->second;
-			i->second = new solidhdl();
+			i->second = new brickhdl();
 		}
 		glutPostRedisplay();
 	}
 	else if (num == 8 && scene.active_object_valid())
+	{
+		for (map<string, materialhdl*>::iterator i = scene.objects[scene.active_object]->material.begin(); i != scene.objects[scene.active_object]->material.end(); i++)
+		{
+			if (i->second != NULL)
+				delete i->second;
+			i->second = new solidhdl();
+		}
+		glutPostRedisplay();
+	}
+	else if (num == 9 && scene.active_object_valid())
 	{
 		for (map<string, materialhdl*>::iterator i = scene.objects[scene.active_object]->material.begin(); i != scene.objects[scene.active_object]->material.end(); i++)
 		{
@@ -957,9 +967,10 @@ void create_menu()
     glutAddMenuEntry(" Quit        ", 0);
 
     int material_menu_id = glutCreateMenu(object_menu);
-    glutAddMenuEntry(" White       ", 8);
-    glutAddMenuEntry(" Solid       ", 7);
-    glutAddMenuEntry(" Brick       ", 6);
+    glutAddMenuEntry(" White       ", 9);
+    glutAddMenuEntry(" Solid       ", 8);
+    glutAddMenuEntry(" Brick       ", 7);
+    glutAddMenuEntry(" Texture     ", 6);
 
     object_menu_id = glutCreateMenu(object_menu);
     glutAddSubMenu  (" Material    ", material_menu_id);
