@@ -71,6 +71,11 @@ Normals
 Quit
 
 If you right click on an object, then the menus are as follows:
+Material
+	White   - Set the shader of this object to ignore lighting and to be a solid white color
+	Solid   - Set the shader to render a solid lit color
+	Brick   - Set the shader to render a lit brick pattern
+	Texture - Set the shader to render a texture on the object
 Set Focus	- Set this object as the camera focus
 Translate	- Set the current manipulator to translate
 Rotate		- Set the current manipulator to rotate
