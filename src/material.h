@@ -40,10 +40,29 @@ struct whitehdl : materialhdl
 	materialhdl *clone() const;
 };
 
-struct solidhdl : materialhdl
+struct gouraudhdl : materialhdl
 {
-	solidhdl();
-	~solidhdl();
+	gouraudhdl();
+	~gouraudhdl();
+
+	vec3f emission;
+	vec3f ambient;
+	vec3f diffuse;
+	vec3f specular;
+	float shininess;
+
+	static GLuint vertex;
+	static GLuint fragment;
+	static GLuint program;
+
+	void apply(const vector<lighthdl*> &lights);
+	materialhdl *clone() const;
+};
+
+struct phonghdl : materialhdl
+{
+	phonghdl();
+	~phonghdl();
 
 	vec3f emission;
 	vec3f ambient;

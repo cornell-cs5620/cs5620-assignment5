@@ -88,7 +88,7 @@ boxhdl::boxhdl(float width, float height, float depth)
 
 	bound = vec6f(-width/2.0, width/2.0, -height/2.0, height/2.0, -depth/2.0, depth/2.0);
 
-	material.insert(pair<string, materialhdl*>("default", new solidhdl()));
+	material.insert(pair<string, materialhdl*>("default", new phonghdl()));
 }
 
 boxhdl::~boxhdl()
@@ -131,7 +131,7 @@ spherehdl::spherehdl(float radius, int levels, int slices)
 
 	bound = vec6f(-radius, radius, -radius, radius, -radius, radius);
 
-	material.insert(pair<string, materialhdl*>("default", new solidhdl()));
+	material.insert(pair<string, materialhdl*>("default", new phonghdl()));
 }
 
 spherehdl::~spherehdl()
@@ -207,7 +207,7 @@ cylinderhdl::cylinderhdl(float radius, float height, int slices)
 
 	bound = vec6f(-radius, radius, -height/2.0, height/2.0, -radius, radius);
 
-	material.insert(pair<string, materialhdl*>("default", new solidhdl()));
+	material.insert(pair<string, materialhdl*>("default", new phonghdl()));
 }
 
 cylinderhdl::~cylinderhdl()
@@ -266,7 +266,7 @@ pyramidhdl::pyramidhdl(float radius, float height, int slices)
 
 	bound = vec6f(-radius, radius, -height/2.0, height/2.0, -radius, radius);
 
-	material.insert(pair<string, materialhdl*>("default", new solidhdl()));
+	material.insert(pair<string, materialhdl*>("default", new phonghdl()));
 }
 
 pyramidhdl::~pyramidhdl()

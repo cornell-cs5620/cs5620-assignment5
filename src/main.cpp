@@ -502,7 +502,7 @@ void canvas_menu(int num)
 	{
 		scene.lights.push_back(new directionalhdl());
 		scene.objects.push_back(new cylinderhdl(0.25, 1.0, 8));
-		((solidhdl*)scene.objects.back()->material["default"])->emission = vec3f(1.0, 1.0, 1.0);
+		((phonghdl*)scene.objects.back()->material["default"])->emission = vec3f(1.0, 1.0, 1.0);
 		for (int k = 0; k < scene.objects.back()->rigid.size(); k++)
 			for (int i = 0; i < scene.objects.back()->rigid[k].geometry.size(); i++)
 			{
@@ -519,14 +519,14 @@ void canvas_menu(int num)
 	{
 		scene.lights.push_back(new pointhdl());
 		scene.objects.push_back(new spherehdl(0.25, 4, 8));
-		((solidhdl*)scene.objects.back()->material["default"])->emission = vec3f(1.0, 1.0, 1.0);
+		((phonghdl*)scene.objects.back()->material["default"])->emission = vec3f(1.0, 1.0, 1.0);
 		scene.lights.back()->model = scene.objects.back();
 	}
 	else if (num == 9)
 	{
 		scene.lights.push_back(new spothdl());
 		scene.objects.push_back(new pyramidhdl(0.25, 1.0, 8));
-		((solidhdl*)scene.objects.back()->material["default"])->emission = vec3f(1.0, 1.0, 1.0);
+		((phonghdl*)scene.objects.back()->material["default"])->emission = vec3f(1.0, 1.0, 1.0);
 		for (int k = 0; k < scene.objects.back()->rigid.size(); k++)
 			for (int i = 0; i < scene.objects.back()->rigid[k].geometry.size(); i++)
 			{
@@ -627,27 +627,6 @@ void canvas_menu(int num)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	else if (num == 23)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	/*else if (num == 24)
-	{
-		// TODO
-		// None
-		glShadeModel(GL_SMOOTH);
-	}
-	else if (num == 25)
-	{
-		// Flat
-		glShadeModel(GL_FLAT);
-	}
-	else if (num == 26)
-	{
-		// Gouraud
-		glShadeModel(GL_SMOOTH);
-	}
-	else if (num == 27)
-	{
-		// Phong
-		glShadeModel(GL_SMOOTH);
-	}*/
 	else if (num == 28)
 		glDisable(GL_CULL_FACE);
 	else if (num == 29)
@@ -754,11 +733,21 @@ void object_menu(int num)
 		{
 			if (i->second != NULL)
 				delete i->second;
-			i->second = new solidhdl();
+			i->second = new phonghdl();
 		}
 		glutPostRedisplay();
 	}
 	else if (num == 9 && scene.active_object_valid())
+	{
+		for (map<string, materialhdl*>::iterator i = scene.objects[scene.active_object]->material.begin(); i != scene.objects[scene.active_object]->material.end(); i++)
+		{
+			if (i->second != NULL)
+				delete i->second;
+			i->second = new gouraudhdl();
+		}
+		glutPostRedisplay();
+	}
+	else if (num == 10 && scene.active_object_valid())
 	{
 		for (map<string, materialhdl*>::iterator i = scene.objects[scene.active_object]->material.begin(); i != scene.objects[scene.active_object]->material.end(); i++)
 		{
@@ -939,13 +928,6 @@ void create_menu()
 	glutAddMenuEntry(" Range 600   ",  10);
 	glutAddMenuEntry(" Range 3250  ",  11);
 
-
-	int shading_id = glutCreateMenu(canvas_menu);
-	glutAddMenuEntry(" None        ", 24);
-	glutAddMenuEntry(" Flat        ", 25);
-	glutAddMenuEntry(" Gouraud     ", 26);
-	glutAddMenuEntry(" Phong       ", 27);
-
 	int culling_id = glutCreateMenu(canvas_menu);
 	glutAddMenuEntry(" None        ", 28);
 	glutAddMenuEntry(" Back        ", 29);
@@ -961,14 +943,14 @@ void create_menu()
     glutAddSubMenu  (" Lights      ", lights_id);
     glutAddSubMenu  (" Cameras     ", camera_id);
     glutAddSubMenu  (" Polygon     ", mode_id);
-    //glutAddSubMenu  (" Shading     ", shading_id);
     glutAddSubMenu  (" Culling     ", culling_id);
     glutAddSubMenu  (" Normals     ", normal_id);
     glutAddMenuEntry(" Quit        ", 0);
 
     int material_menu_id = glutCreateMenu(object_menu);
-    glutAddMenuEntry(" White       ", 9);
-    glutAddMenuEntry(" Solid       ", 8);
+    glutAddMenuEntry(" White       ", 10);
+    glutAddMenuEntry(" Gouraud       ", 9);
+    glutAddMenuEntry(" Phong       ", 8);
     glutAddMenuEntry(" Brick       ", 7);
     glutAddMenuEntry(" Texture     ", 6);
 
