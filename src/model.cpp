@@ -7,7 +7,6 @@
 
 #include "model.h"
 #include "standard.h"
-#include "opengl.h"
 
 modelhdl::modelhdl()
 {
@@ -85,7 +84,11 @@ void modelhdl::load_obj(string filename)
 				load_mtl(mtlname);
 			}
 			else if (command == "g")
+			{
 				rigid.push_back(rigidhdl());
+				if (rigid.size() > 1)
+					rigid[rigid.size()-1].material = rigid[rigid.size()-2].material;
+			}
 			else if (command == "usemtl")
 			{
 				if (rigid.size() == 0)
@@ -93,7 +96,7 @@ void modelhdl::load_obj(string filename)
 
 				iss >> rigid.back().material;
 			}
-			else
+			else if (command == "v" || command == "vn" || command == "vt" || command == "f")
 			{
 				if (rigid.size() == 0)
 					rigid.push_back(rigidhdl());
@@ -232,6 +235,7 @@ void modelhdl::load_mtl(string filename)
 				iss >> ((phonghdl*)material[current_material])->specular[0] >> ((phonghdl*)material[current_material])->specular[1] >> ((phonghdl*)material[current_material])->specular[2];
 			else if (command == "Ns" && type == "phong")
 				iss >> ((phonghdl*)material[current_material])->shininess;
+
 		}
 	}
 }
