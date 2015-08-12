@@ -78,11 +78,10 @@ struct phonghdl : materialhdl
 	materialhdl *clone() const;
 };
 
-
-struct brickhdl : materialhdl
+struct customhdl : materialhdl
 {
-	brickhdl();
-	~brickhdl();
+	customhdl();
+	~customhdl();
 
 	static GLuint vertex;
 	static GLuint fragment;

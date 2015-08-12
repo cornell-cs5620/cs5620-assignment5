@@ -210,8 +210,8 @@ void modelhdl::load_mtl(string filename)
 					material[current_material] = new gouraudhdl();
 				else if (type == "phong")
 					material[current_material] = new phonghdl();
-				else if (type == "brick")
-					material[current_material] = new brickhdl();
+				else if (type == "custom")
+					material[current_material] = new customhdl();
 				else if (type == "gouraud")
 					material[current_material] = new texturehdl();
 			}

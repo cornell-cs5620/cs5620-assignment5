@@ -21,9 +21,9 @@ GLuint phonghdl::vertex = 0;
 GLuint phonghdl::fragment = 0;
 GLuint phonghdl::program = 0;
 
-GLuint brickhdl::vertex = 0;
-GLuint brickhdl::fragment = 0;
-GLuint brickhdl::program = 0;
+GLuint customhdl::vertex = 0;
+GLuint customhdl::fragment = 0;
+GLuint customhdl::program = 0;
 
 GLuint texturehdl::vertex = 0;
 GLuint texturehdl::fragment = 0;
@@ -39,6 +39,38 @@ materialhdl::materialhdl()
 
 materialhdl::~materialhdl()
 {
+}
+
+whitehdl::whitehdl()
+{
+	type = "white";
+
+	if (vertex == 0 && fragment == 0 && program == 0)
+	{
+		program = glCreateProgram();
+		vertex = load_shader_file(working_directory + "res/"+ type + ".vx", GL_VERTEX_SHADER);
+		fragment = load_shader_file(working_directory + "res/"+ type + ".ft", GL_FRAGMENT_SHADER);
+		glAttachShader(program, vertex);
+		glAttachShader(program, fragment);
+		glLinkProgram(program);
+	}
+}
+
+whitehdl::~whitehdl()
+{
+
+}
+
+void whitehdl::apply(const vector<lighthdl*> &lights)
+{
+	glUseProgram(program);
+}
+
+materialhdl *whitehdl::clone() const
+{
+	whitehdl *result = new whitehdl();
+	result->type = type;
+	return result;
 }
 
 gouraudhdl::gouraudhdl()
@@ -185,9 +217,9 @@ materialhdl *phonghdl::clone() const
 	return result;
 }
 
-whitehdl::whitehdl()
+customhdl::customhdl()
 {
-	type = "white";
+	type = "custom";
 
 	if (vertex == 0 && fragment == 0 && program == 0)
 	{
@@ -200,44 +232,12 @@ whitehdl::whitehdl()
 	}
 }
 
-whitehdl::~whitehdl()
+customhdl::~customhdl()
 {
 
 }
 
-void whitehdl::apply(const vector<lighthdl*> &lights)
-{
-	glUseProgram(program);
-}
-
-materialhdl *whitehdl::clone() const
-{
-	whitehdl *result = new whitehdl();
-	result->type = type;
-	return result;
-}
-
-brickhdl::brickhdl()
-{
-	type = "brick";
-
-	if (vertex == 0 && fragment == 0 && program == 0)
-	{
-		program = glCreateProgram();
-		vertex = load_shader_file(working_directory + "res/"+ type + ".vx", GL_VERTEX_SHADER);
-		fragment = load_shader_file(working_directory + "res/"+ type + ".ft", GL_FRAGMENT_SHADER);
-		glAttachShader(program, vertex);
-		glAttachShader(program, fragment);
-		glLinkProgram(program);
-	}
-}
-
-brickhdl::~brickhdl()
-{
-
-}
-
-void brickhdl::apply(const vector<lighthdl*> &lights)
+void customhdl::apply(const vector<lighthdl*> &lights)
 {
 	glUseProgram(program);
 
@@ -267,9 +267,9 @@ void brickhdl::apply(const vector<lighthdl*> &lights)
 	glUniform1i(glGetUniformLocation(program, "num_slights"), s);
 }
 
-materialhdl *brickhdl::clone() const
+materialhdl *customhdl::clone() const
 {
-	brickhdl *result = new brickhdl();
+	customhdl *result = new customhdl();
 	result->type = type;
 	return result;
 }
