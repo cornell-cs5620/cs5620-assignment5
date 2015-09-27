@@ -6,7 +6,7 @@
  */
 
 #include "opengl.h"
-#include "standard.h"
+#include "common/standard.h"
 #include "scene.h"
 #include "camera.h"
 #include "model.h"
@@ -474,9 +474,10 @@ void canvas_menu(int num)
 		scene.objects.push_back(new pyramidhdl(1.0, 1.0, 20));
 	else if (num == 5)
 	{
-		const char* filters[1];
+		const char* filters[2];
 		filters[0] = "*.obj";
-		const char *path = tinyfd_openFileDialog("Load a Model", "", 1, filters, 0);
+		filters[1] = "*.wrl";
+		const char *path = tinyfd_openFileDialog("Load a Model", "", 2, filters, 0);
 		if (path != NULL && strlen(path) > 0)
 			scene.objects.push_back(new modelhdl(path));
 	}
@@ -657,6 +658,8 @@ void object_menu(int num)
 					if (scene.cameras[i] != NULL && scene.cameras[i]->model == scene.objects[scene.active_object])
 					{
 						delete scene.cameras[i];
+						if (scene.active_camera > i)
+							scene.active_camera--;
 						scene.cameras.erase(scene.cameras.begin() + i);
 					}
 					else

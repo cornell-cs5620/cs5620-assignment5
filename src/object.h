@@ -6,7 +6,7 @@
  */
 
 #include "core/geometry.h"
-#include "standard.h"
+#include "common/standard.h"
 #include "opengl.h"
 
 #include "material.h"
@@ -34,7 +34,10 @@ struct rigidhdl
 	vector<int> indices;
 	string material;
 
-	void draw();
+	map<float, vec3f> positions;
+	map<float, vec3f> orientations;
+
+	void draw(float animation_time = 0.0f);
 };
 
 struct objecthdl
@@ -54,7 +57,7 @@ struct objecthdl
 	// (left, right, bottom, top, front, back)
 	vec6f bound;
 
-	void draw(const vector<lighthdl*> &lights);
+	void draw(const vector<lighthdl*> &lights, float animation_time = 0.0f);
 	void draw_bound();
 	void draw_normals(bool face = false);
 };

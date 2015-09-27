@@ -5,7 +5,7 @@
  *      Author: nbingham
  */
 
-#include "standard.h"
+#include "common/standard.h"
 #include "scene.h"
 #include "object.h"
 
@@ -20,6 +20,7 @@ struct modelhdl : objecthdl
 
 	void load_obj(string filename);
 	void load_mtl(string filename);
+	void load_wrl(string filename);
 };
 
 #endif

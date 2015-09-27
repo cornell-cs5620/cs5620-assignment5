@@ -6,7 +6,8 @@
  */
 
 #include "model.h"
-#include "standard.h"
+#include "common/standard.h"
+#include "vrml/scene.h"
 
 modelhdl::modelhdl()
 {
@@ -15,7 +16,13 @@ modelhdl::modelhdl()
 
 modelhdl::modelhdl(string filename)
 {
-	load_obj(filename);
+	int dot = filename.find_last_of(".");
+	if (dot >= 0 && dot < (int)filename.size() && filename.substr(dot) == ".obj")
+		load_obj(filename);
+	else if (dot >= 0 && dot < (int)filename.size() && filename.substr(dot) == ".wrl")
+		load_wrl(filename);
+	else
+		cout << "unrecognized file format" << endl;
 }
 
 modelhdl::~modelhdl()
@@ -237,5 +244,21 @@ void modelhdl::load_mtl(string filename)
 				iss >> ((phonghdl*)material[current_material])->shininess;
 
 		}
+	}
+}
+
+void modelhdl::load_wrl(string filename)
+{
+	configuration config;
+	tokenizer tokens;
+	parse_vrml::scene::register_syntax(tokens);
+	config.load(tokens, filename, "");
+	tokens.increment(true);
+	tokens.expect<parse_vrml::scene>();
+
+	if (tokens.decrement(__FILE__, __LINE__))
+	{
+		parse_vrml::scene s(tokens);
+		cout << s.to_string() << endl;
 	}
 }

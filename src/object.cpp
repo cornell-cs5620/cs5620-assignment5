@@ -21,8 +21,17 @@ rigidhdl::~rigidhdl()
  *
  * Draw a rigid body.
  */
-void rigidhdl::draw()
+void rigidhdl::draw(float animation_time)
 {
+	map<float, vec3f>::iterator position_frame = positions.lower_bound(animation_time);
+	map<float, vec3f>::iterator orientation_frame = orientations.lower_bound(animation_time);
+
+	glPushMatrix();
+	glTranslatef(position_frame->second[0], position_frame->second[1], position_frame->second[2]);
+	glRotatef(radtodeg(orientation_frame->second[0]), 1.0, 0.0, 0.0);
+	glRotatef(radtodeg(orientation_frame->second[1]), 0.0, 1.0, 0.0);
+	glRotatef(radtodeg(orientation_frame->second[2]), 0.0, 0.0, 1.0);
+
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -36,6 +45,8 @@ void rigidhdl::draw()
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	glPopMatrix();
 }
 
 objecthdl::objecthdl()
@@ -74,7 +85,7 @@ objecthdl::~objecthdl()
  * Draw the model. Don't forget to apply the transformations necessary
  * for position, orientation, and scale.
  */
-void objecthdl::draw(const vector<lighthdl*> &lights)
+void objecthdl::draw(const vector<lighthdl*> &lights, float animation_time)
 {
 	glPushMatrix();
 	glTranslatef(position[0], position[1], position[2]);
@@ -89,7 +100,7 @@ void objecthdl::draw(const vector<lighthdl*> &lights)
 			material[rigid[i].material]->apply(lights);
 		else
 			whitehdl().apply(lights);
-		rigid[i].draw();
+		rigid[i].draw(animation_time);
 	}
 
 	glPopMatrix();

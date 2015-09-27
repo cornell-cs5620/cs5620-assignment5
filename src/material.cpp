@@ -8,6 +8,7 @@
 #include "material.h"
 #include "light.h"
 #include "lodepng.h"
+#include "common/text.h"
 
 GLuint whitehdl::vertex = 0;
 GLuint whitehdl::fragment = 0;

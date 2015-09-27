@@ -2,7 +2,7 @@ CXXFLAGS = -O2 -g -fmessage-length=0
 SOURCES	:= $(shell find src -name '*.cpp') $(shell find src -name '*.c')
 OBJECTS	:= $(subst .c,.o,$(subst .cpp,.o,$(subst src/,build/,$(SOURCES))))
 DIRECTORIES := $(sort $(dir $(OBJECTS)))
-SEARCH_PATHS = 
+SEARCH_PATHS = -Isrc
 LDFLAGS	= 
 TARGET	= assignment
 
