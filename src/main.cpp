@@ -755,22 +755,25 @@ void object_menu(int num)
 		}
 		glutPostRedisplay();
 	}
-	else if (num == 11 && scene.active_object_valid())
-		scene.objects[scene.active_object]->position_interpolator = 0;
-	else if (num == 12 && scene.active_object_valid())
-		scene.objects[scene.active_object]->position_interpolator = 1;
-	else if (num == 13 && scene.active_object_valid())
-		scene.objects[scene.active_object]->position_interpolator = 2;
-	else if (num == 14 && scene.active_object_valid())
-		scene.objects[scene.active_object]->orientation_interpolator = 0;
-	else if (num == 15 && scene.active_object_valid())
-		scene.objects[scene.active_object]->orientation_interpolator = 1;
-	else if (num == 16 && scene.active_object_valid())
-		scene.objects[scene.active_object]->orientation_interpolator = 2;
-	else if (num == 17 && scene.active_object_valid())
-		scene.objects[scene.active_object]->orientation_interpolator = 3;
-	else if (num == 18)
+	else if (num == 11)
 		manipulator = manipulate::stepsize;
+	else if (num == 12 && scene.active_object_valid())
+		scene.objects[scene.active_object]->position_interpolator = 0;
+	else if (num == 13 && scene.active_object_valid())
+		scene.objects[scene.active_object]->position_interpolator = 1;
+	else if (num == 14 && scene.active_object_valid())
+		scene.objects[scene.active_object]->position_interpolator = 2;
+	else if (num == 15 && scene.active_object_valid())
+		scene.objects[scene.active_object]->position_interpolator = 3;
+	else if (num == 20 && scene.active_object_valid())
+		scene.objects[scene.active_object]->orientation_interpolator = 0;
+	else if (num == 21 && scene.active_object_valid())
+		scene.objects[scene.active_object]->orientation_interpolator = 1;
+	else if (num == 22 && scene.active_object_valid())
+		scene.objects[scene.active_object]->orientation_interpolator = 2;
+	else if (num == 23 && scene.active_object_valid())
+		scene.objects[scene.active_object]->orientation_interpolator = 3;
+
 }
 
 void color_menu(int num)
@@ -968,15 +971,16 @@ void create_menu()
     glutAddMenuEntry(" Texture     ", 6);
 
     int translation_interpolator_menu_id = glutCreateMenu(object_menu);
-    glutAddMenuEntry(" None       ", 11);
-    glutAddMenuEntry(" LERP       ", 12);
-    glutAddMenuEntry(" Hermite    ", 13);
+    glutAddMenuEntry(" None        ", 12);
+    glutAddMenuEntry(" LERP        ", 13);
+    glutAddMenuEntry(" Hermite     ", 14);
+    glutAddMenuEntry(" Catmull Rom ", 15);
 
     int rotation_interpolator_menu_id = glutCreateMenu(object_menu);
-	glutAddMenuEntry(" None  ", 14);
-	glutAddMenuEntry(" LERP  ", 15);
-	glutAddMenuEntry(" SLERP ", 16);
-	glutAddMenuEntry(" SQUAD ", 17);
+	glutAddMenuEntry(" None  ", 20);
+	glutAddMenuEntry(" LERP  ", 21);
+	glutAddMenuEntry(" SLERP ", 22);
+	glutAddMenuEntry(" SQUAD ", 23);
 
     object_menu_id = glutCreateMenu(object_menu);
     glutAddSubMenu  (" Material            ", material_menu_id);
@@ -986,7 +990,7 @@ void create_menu()
     glutAddMenuEntry(" Translate           ", 1);
     glutAddMenuEntry(" Rotate              ", 2);
     glutAddMenuEntry(" Scale               ", 3);
-    glutAddMenuEntry(" Step Size           ", 18);
+    glutAddMenuEntry(" Step Size           ", 11);
     glutAddMenuEntry(" Delete              ", 0);
 
     light_menu_id = glutCreateMenu(object_menu);

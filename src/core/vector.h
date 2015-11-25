@@ -1064,6 +1064,40 @@ vec<t, s> hermite(vec<t, s> v0, vec<t, s> v1, vec<t, s> m0, vec<t, s> m1, t p)
 	return c0*v0 + c1*m0 + c2*v1 + c3*m1;
 }
 
+template <class t, int s>
+vec<t, s> catmullrom(vec<t, s> v0, vec<t, s> v1, vec<t, s> v2, vec<t, s> v3, t p, t a)
+{
+	t p0 = 0;
+	t p1 = pow((double)dist(v1, v0), (double)a) + p0;
+	t p2 = pow((double)dist(v2, v1), (double)a) + p1;
+	t p3 = pow((double)dist(v3, v2), (double)a) + p2;
+
+	p = p*(p2 - p1) + p1;
+
+	vec<t, s> A1 = v0;
+	if (p1 - p0 != 0)
+		A1 = ((p1 - p)/(p1 - p0))*v0 + ((p - p0)/(p1 - p0))*v1;
+	vec<t, s> A2 = v1;
+	if (p2 - p1 != 0)
+		A2 = ((p2 - p)/(p2 - p1))*v1 + ((p - p1)/(p2 - p1))*v2;
+	vec<t, s> A3 = v2;
+	if (p3 - p2 != 0)
+		A3 = ((p3 - p)/(p3 - p2))*v2 + ((p - p2)/(p3 - p2))*v3;
+
+	vec<t, s> B1 = A1;
+	if (p2 - p0 != 0)
+		B1 = ((p2 - p)/(p2 - p0))*A1 + ((p - p0)/(p2 - p0))*A2;
+	vec<t, s> B2 = A2;
+	if (p3 - p1 != 0)
+		B2 = ((p3 - p)/(p3 - p1))*A2 + ((p - p1)/(p3 - p1))*A3;
+
+	vec<t, s> C = B1;
+	if (p2 - p1 != 0)
+		C = ((p2 - p)/(p2 - p1))*B1 + ((p - p1)/(p2 - p1))*B2;
+
+	return C;
+}
+
 }
 
 #endif

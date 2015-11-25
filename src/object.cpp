@@ -57,6 +57,20 @@ vec3f rigidhdl::get_position(int frame, double pos, double fraction, double step
 		vec3f m1 = loc3->second - loc1->second;
 		return hermite(loc1->second, loc2->second, m0, m1, (float)fraction);
 	}
+	else if (method == 3) // catmull rom
+	{
+		map<double, vec3f>::iterator loc0 = positions[frame].lower_bound(pos);
+		map<double, vec3f>::iterator loc1 = positions[frame].lower_bound(pos + step);
+		map<double, vec3f>::iterator loc2 = positions[frame].lower_bound(pos + 2.0*step);
+		map<double, vec3f>::iterator loc3 = positions[frame].lower_bound(pos + 3.0*step);
+
+		loc0--;
+		loc1--;
+		loc2--;
+		loc3--;
+
+		return catmullrom(loc0->second, loc1->second, loc2->second, loc3->second, (float)fraction, 0.5f);
+	}
 
 	return positions[frame].begin()->second;
 }
