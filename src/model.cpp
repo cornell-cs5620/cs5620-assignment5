@@ -257,8 +257,6 @@ void modelhdl::load_mtl(string filename)
 
 vector<vec3f> interpret_properties(mat4f model, mat3f norm, const parse_vrml::node &syntax, map<string, definition> &names, vector<string> parent)
 {
-	cout << "Interpreting Property: " << syntax.nodeType << " " << parent << endl;
-
 	vector<vec3f> result;
 	if (syntax.nodeType == "Coordinate")
 	{
@@ -311,24 +309,18 @@ vector<vec3f> interpret_properties(mat4f model, mat3f norm, const parse_vrml::no
 		}
 	}
 
-	//for (int i = 0; i < (int)result.size(); i++)
-	//	cout << result[i] << endl;
-
 	return result;
 }
 
 vector<vec3f> interpret_properties(mat4f model, mat3f norm, const parse_vrml::nodeDeclaration &syntax, map<string, definition> &names, vector<string> parent)
 {
-	cout << syntax.content.nodeType << endl;
 	if (syntax.cmd == "USE" || syntax.content.nodeType == "Coordinate" || syntax.content.nodeType == "Normal" || syntax.content.nodeType == "TextureCoordinate")
 	{
-		cout << syntax.cmd << endl;
 		if (syntax.cmd == "DEF")
 		{
 			names[syntax.name].model = model;
 			names[syntax.name].norm = norm;
 			names[syntax.name].syntax = syntax.content;
-			cout << "Declaring Property: " << syntax.content.nodeType << " " << syntax.name << endl;
 			parent.push_back(syntax.name);
 			return interpret_properties(model, norm, syntax.content, names, parent);
 		}
@@ -336,18 +328,13 @@ vector<vec3f> interpret_properties(mat4f model, mat3f norm, const parse_vrml::no
 		{
 			map<string, definition>::iterator loc = names.find(syntax.name);
 			parent.push_back(syntax.name);
-			cout << "Declaring Property: " << syntax.content.nodeType << " " << syntax.name << endl;
 			if (loc != names.end())
-			{
-				cout << syntax.name << " " << loc->second.syntax.to_string() << endl;
 				return interpret_properties(model*loc->second.model, norm*loc->second.norm, loc->second.syntax, names, parent);
-			}
 			else
 				error("", "undefined node \"" + syntax.name + "\"", __FILE__, __LINE__);
 		}
 		else
 		{
-			cout << "Declaring Property: " << syntax.content.nodeType << " " << parent << endl;
 			return interpret_properties(model, norm, syntax.content, names, parent);
 		}
 	}
@@ -356,8 +343,6 @@ vector<vec3f> interpret_properties(mat4f model, mat3f norm, const parse_vrml::no
 
 rigidhdl interpret_geometry(mat4f model, mat3f norm, const parse_vrml::node &syntax, map<string, definition> &names, vector<string> parent)
 {
-	cout << "Interpreting Geometry: " << syntax.nodeType << " " << parent << endl;
-
 	rigidhdl result;
 	if (syntax.nodeType == "IndexedFaceSet")
 	{
@@ -369,22 +354,12 @@ rigidhdl interpret_geometry(mat4f model, mat3f norm, const parse_vrml::node &syn
 		vector<int> texCoordIndex;
 		for (int i = 0; i < (int)syntax.nodeGuts.size(); i++)
 		{
-			if (syntax.nodeGuts[i].first == "coord" && syntax.nodeGuts[i].value.type == "SFNode")
-			{
-				cout << syntax.nodeGuts[i].value.to_string() << endl;
-				cout << syntax.nodeGuts[i].value.values.size() << endl;
-				cout << syntax.nodeGuts[i].value.values[0].to_string() << endl;
-				if (syntax.nodeGuts[i].value.values.size() > 0 && syntax.nodeGuts[i].value.values[0].node != NULL)
-				{
-					cout << "LOOK " << syntax.nodeGuts[i].value.values[0].node->to_string() << endl;
-					coord = interpret_properties(model, norm, *syntax.nodeGuts[i].value.values[0].node, names, parent);
-				}
-			}
+			if (syntax.nodeGuts[i].first == "coord" && syntax.nodeGuts[i].value.type == "SFNode" &&
+				syntax.nodeGuts[i].value.values.size() > 0 && syntax.nodeGuts[i].value.values[0].node != NULL)
+				coord = interpret_properties(model, norm, *syntax.nodeGuts[i].value.values[0].node, names, parent);
 			else if (syntax.nodeGuts[i].first == "normal" && syntax.nodeGuts[i].value.type == "SFNode" &&
 				syntax.nodeGuts[i].value.values.size() > 0 && syntax.nodeGuts[i].value.values[0].node != NULL)
-			{
 				normal = interpret_properties(model, norm, *syntax.nodeGuts[i].value.values[0].node, names, parent);
-			}
 			else if (syntax.nodeGuts[i].first == "texCoord" && syntax.nodeGuts[i].value.type == "SFNode" &&
 				syntax.nodeGuts[i].value.values.size() > 0 && syntax.nodeGuts[i].value.values[0].node != NULL)
 				texCoord = interpret_properties(model, norm, *syntax.nodeGuts[i].value.values[0].node, names, parent);
@@ -470,11 +445,6 @@ rigidhdl interpret_geometry(mat4f model, mat3f norm, const parse_vrml::node &syn
 					}
 				}
 		}
-
-		/*for (int i = 0; i < (int)coordIndex.size(); i+=3)
-		{
-			cout << "(" << coordIndex[i] << " " << coordIndex[i+1] << " " << coordIndex[i+2] << ")/" << coord.size() << endl;
-		}*/
 
 		map<vec3f, int> geomap;
 		for (int i = 0; i < (int)coordIndex.size(); i++)
@@ -652,32 +622,25 @@ rigidhdl interpret_geometry(mat4f model, mat3f norm, const parse_vrml::nodeDecla
 			names[syntax.name].norm = norm;
 			names[syntax.name].syntax = syntax.content;
 			parent.push_back(syntax.name);
-			cout << "Declaring Geometry: " << syntax.content.nodeType << " " << syntax.name << endl;
 			return interpret_geometry(model, norm, syntax.content, names, parent);
 		}
 		else if (syntax.cmd == "USE")
 		{
 			map<string, definition>::iterator loc = names.find(syntax.name);
 			parent.push_back(syntax.name);
-			cout << "Declaring Geometry: " << syntax.content.nodeType << " " << syntax.name << endl;
 			if (loc != names.end())
 				return interpret_geometry(model*loc->second.model, norm*loc->second.norm, loc->second.syntax, names, parent);
 			else
 				error("", "undefined node \"" + syntax.name + "\"", __FILE__, __LINE__);
 		}
 		else
-		{
-			cout << "Declaring Geometry: " << syntax.content.nodeType << " " << parent << endl;
 			return interpret_geometry(model, norm, syntax.content, names, parent);
-		}
 	}
 	return rigidhdl();
 }
 
 pair<string, phonghdl> interpret_appearance(const parse_vrml::node &syntax, map<string, definition> &names, vector<string> parent)
 {
-	cout << "Interpreting Appearance: " << syntax.nodeType << " " << parent << endl;
-
 	pair<string, phonghdl> result("", phonghdl());
 	for (int i = 0; i < (int)parent.size(); i++)
 	{
@@ -757,32 +720,25 @@ pair<string, phonghdl> interpret_appearance(const parse_vrml::nodeDeclaration &s
 		{
 			names[syntax.name].syntax = syntax.content;
 			parent.push_back(syntax.name);
-			cout << "Declaring Appearance: " << syntax.content.nodeType << " " << syntax.name << endl;
 			return interpret_appearance(syntax.content, names, parent);
 		}
 		else if (syntax.cmd == "USE")
 		{
 			map<string, definition>::iterator loc = names.find(syntax.name);
 			parent.push_back(syntax.name);
-			cout << "Declaring Appearance: " << syntax.content.nodeType << " " << syntax.name << endl;
 			if (loc != names.end())
 				return interpret_appearance(loc->second.syntax, names, parent);
 			else
 				error("", "undefined node \"" + syntax.name + "\"", __FILE__, __LINE__);
 		}
 		else
-		{
-			cout << "Declaring Appearance: " << syntax.content.nodeType << " " << parent << endl;
 			return interpret_appearance(syntax.content, names, parent);
-		}
 	}
 	return pair<string, phonghdl>("", phonghdl());
 }
 
 objecthdl interpret_common(mat4f model, mat3f norm, const parse_vrml::node &syntax, map<string, definition> &names, vector<string> parent)
 {
-	cout << "Interpreting Common: " << syntax.nodeType << " " << parent << endl;
-
 	objecthdl result;
 	if (syntax.nodeType == "Shape")
 	{
@@ -842,8 +798,6 @@ objecthdl interpret_common(mat4f model, mat3f norm, const parse_vrml::node &synt
 				result.bound[5] = result.rigid[i].geometry[j][2];
 		}
 
-	cout << result.bound << endl;
-
 	return result;
 }
 
@@ -858,7 +812,6 @@ objecthdl interpret_common(mat4f model, mat3f norm, const parse_vrml::nodeDeclar
 			names[syntax.name].norm = norm;
 			names[syntax.name].syntax = syntax.content;
 			parent.push_back(syntax.name);
-			cout << "Declaring Common: " << syntax.content.nodeType << " " << syntax.name << endl;
 
 			return interpret_common(model, norm, syntax.content, names, parent);
 		}
@@ -866,7 +819,6 @@ objecthdl interpret_common(mat4f model, mat3f norm, const parse_vrml::nodeDeclar
 		{
 			map<string, definition>::iterator loc = names.find(syntax.name);
 			parent.push_back(syntax.name);
-			cout << "Declaring Common: " << syntax.content.nodeType << " " << syntax.name << endl;
 
 			if (loc != names.end())
 				return interpret_common(model*loc->second.model, norm*loc->second.norm, loc->second.syntax, names, parent);
@@ -874,10 +826,7 @@ objecthdl interpret_common(mat4f model, mat3f norm, const parse_vrml::nodeDeclar
 				error("", "undefined node \"" + syntax.name + "\"", __FILE__, __LINE__);
 		}
 		else
-		{
-			cout << "Declaring Common: " << syntax.content.nodeType << " " << parent << endl;
 			return interpret_common(model, norm, syntax.content, names, parent);
-		}
 	}
 
 	return objecthdl();
@@ -885,8 +834,6 @@ objecthdl interpret_common(mat4f model, mat3f norm, const parse_vrml::nodeDeclar
 
 objecthdl interpret_interpolator(mat4f model, mat3f norm, const parse_vrml::node &syntax, map<string, definition> &names, vector<string> parent)
 {
-	cout << "Interpreting Interpolator: " << syntax.nodeType << " " << parent << endl;
-
 	objecthdl result;
 	if (syntax.nodeType == "PositionInterpolator")
 	{
@@ -963,7 +910,6 @@ objecthdl interpret_interpolator(mat4f model, mat3f norm, const parse_vrml::node
 			names[syntax.name].norm = norm;
 			names[syntax.name].syntax = syntax.content;
 			parent.push_back(syntax.name);
-			cout << "Declaring Interpolator: " << syntax.content.nodeType << " " << syntax.name << endl;
 
 			return interpret_interpolator(model, norm, syntax.content, names, parent);
 		}
@@ -971,7 +917,6 @@ objecthdl interpret_interpolator(mat4f model, mat3f norm, const parse_vrml::node
 		{
 			map<string, definition>::iterator loc = names.find(syntax.name);
 			parent.push_back(syntax.name);
-			cout << "Declaring Interpolator: " << syntax.content.nodeType << " " << syntax.name << endl;
 
 			if (loc != names.end())
 				return interpret_interpolator(model*loc->second.model, norm*loc->second.norm, loc->second.syntax, names, parent);
@@ -979,10 +924,7 @@ objecthdl interpret_interpolator(mat4f model, mat3f norm, const parse_vrml::node
 				error("", "undefined node \"" + syntax.name + "\"", __FILE__, __LINE__);
 		}
 		else
-		{
-			cout << "Declaring Interpolator: " << syntax.content.nodeType << " " << parent << endl;
 			return interpret_interpolator(model, norm, syntax.content, names, parent);
-		}
 	}
 
 	return objecthdl();
@@ -990,8 +932,6 @@ objecthdl interpret_interpolator(mat4f model, mat3f norm, const parse_vrml::node
 
 objecthdl interpret_sensors(mat4f model, mat3f norm, const parse_vrml::node &syntax, map<string, definition> &names, vector<string> parent)
 {
-	cout << "Interpreting Sensor: " << syntax.nodeType << " " << parent << endl;
-
 	objecthdl result;
 	if (syntax.nodeType == "TimeSensor")
 	{
@@ -1004,8 +944,6 @@ objecthdl interpret_sensors(mat4f model, mat3f norm, const parse_vrml::node &syn
 			}
 		}
 	}
-
-	cout << "Look here " << result.animation_length << endl;
 
 	return result;
 }
@@ -1020,7 +958,6 @@ objecthdl interpret_sensors(mat4f model, mat3f norm, const parse_vrml::nodeDecla
 			names[syntax.name].norm = norm;
 			names[syntax.name].syntax = syntax.content;
 			parent.push_back(syntax.name);
-			cout << "Declaring Sensor: " << syntax.content.nodeType << " " << syntax.name << endl;
 
 			return interpret_sensors(model, norm, syntax.content, names, parent);
 		}
@@ -1028,7 +965,6 @@ objecthdl interpret_sensors(mat4f model, mat3f norm, const parse_vrml::nodeDecla
 		{
 			map<string, definition>::iterator loc = names.find(syntax.name);
 			parent.push_back(syntax.name);
-			cout << "Declaring Sensor: " << syntax.content.nodeType << " " << syntax.name << endl;
 
 			if (loc != names.end())
 				return interpret_sensors(model*loc->second.model, norm*loc->second.norm, loc->second.syntax, names, parent);
@@ -1036,10 +972,7 @@ objecthdl interpret_sensors(mat4f model, mat3f norm, const parse_vrml::nodeDecla
 				error("", "undefined node \"" + syntax.name + "\"", __FILE__, __LINE__);
 		}
 		else
-		{
-			cout << "Declaring Sensor: " << syntax.content.nodeType << " " << parent << endl;
 			return interpret_sensors(model, norm, syntax.content, names, parent);
-		}
 	}
 
 	return objecthdl();
@@ -1047,7 +980,6 @@ objecthdl interpret_sensors(mat4f model, mat3f norm, const parse_vrml::nodeDecla
 
 objecthdl interpret_groups(mat4f model, mat3f norm, const parse_vrml::node &syntax, map<string, definition> &names, vector<string> parent)
 {
-	cout << "Interpreting Group: " << syntax.nodeType << " " << parent << endl;
 	objecthdl result;
 	vec3f center(0.0f, 0.0f, 0.0f);
 	vec4d rotation(0.0f, 0.0f, 1.0f, 0.0f);
@@ -1158,7 +1090,6 @@ objecthdl interpret_groups(mat4f model, mat3f norm, const parse_vrml::node &synt
 				result.rigid.push_back(children[i].rigid[j]);
 
 				int index = (int)parent.size()-1;
-				cout << result.rigid.back().positions.size() << " " << result.rigid.back().orientations.size() << " " << parent.size() << " " << result.rigid.back().name.size() << endl;
 
 				if (syntax.nodeType == "Transform" && translation != vec3f(0.0f, 0.0f, 0.0f))
 					result.rigid.back().positions[index].insert(pair<double, vec3f>(0.0f, translation));
@@ -1211,10 +1142,6 @@ objecthdl interpret_groups(mat4f model, mat3f norm, const parse_vrml::node &synt
 		}
 	}
 
-	cout << "Rigid Bodies: " << result.rigid.size() << endl;
-	if (result.rigid.size() > 0)
-		cout << "Geometry: " << result.rigid[0].geometry.size() << " " << result.rigid[0].indices.size() << endl;
-
 	return result;
 }
 
@@ -1238,24 +1165,19 @@ objecthdl interpret_groups(mat4f model, mat3f norm, const parse_vrml::nodeDeclar
 			names[syntax.name].norm = norm;
 			names[syntax.name].syntax = syntax.content;
 			parent.push_back(syntax.name);
-			cout << "Declaring Group: " << syntax.content.nodeType << " " << syntax.name << endl;
 			return interpret_groups(model, norm, syntax.content, names, parent);
 		}
 		else if (syntax.cmd == "USE")
 		{
 			map<string, definition>::iterator loc = names.find(syntax.name);
 			parent.push_back(syntax.name);
-			cout << "Declaring Group: " << syntax.content.nodeType << " " << syntax.name << endl;
 			if (loc != names.end())
 				return interpret_groups(model*loc->second.model, norm*loc->second.norm, loc->second.syntax, names, parent);
 			else
 				error("", "undefined node \"" + syntax.name + "\"", __FILE__, __LINE__);
 		}
 		else
-		{
-			cout << "Declaring Group: " << syntax.content.nodeType << " " << parent << endl;
 			return interpret_groups(model, norm, syntax.content, names, parent);
-		}
 	}
 	else if (syntax.content.nodeType == "Shape")
 	{
@@ -1264,13 +1186,11 @@ objecthdl interpret_groups(mat4f model, mat3f norm, const parse_vrml::nodeDeclar
 	}
 	else if (syntax.content.nodeType == "PositionInterpolator" || syntax.content.nodeType == "OrientationInterpolator")
 	{
-		cout << "Declaring " << syntax.content.nodeType << endl;
 		objecthdl result = interpret_interpolator(model, norm, syntax, names, parent);
 		return result;
 	}
 	else if (syntax.content.nodeType == "TimeSensor")
 	{
-		cout << "Declaring " << syntax.content.nodeType << endl;
 		objecthdl result = interpret_sensors(model, norm, syntax, names, parent);
 		return result;
 	}
@@ -1308,24 +1228,6 @@ void modelhdl::load_wrl(string filename)
 					interpret_route(syntax.declarations[i].route, routes, vector<string>());
 			}
 
-		cout << "Objects" << endl;
-		for (int i = 0; i < (int)objects.size(); i++)
-		{
-			cout << "Object " << i << " " << objects[i].animation_length << endl;
-			for (int j = 0; j < (int)objects[i].rigid.size(); j++)
-			{
-				cout << "\t" << objects[i].rigid[j].name << endl;
-				for (int k = 0; k < objects[i].rigid[j].orientations.size(); k++)
-				{
-					if (objects[i].rigid[j].orientations[k].size() > 0)
-						cout << objects[i].rigid[j].orientations[k].size() << "\t" << objects[i].rigid[j].orientations[k].begin()->second << endl;
-					else
-						cout << "0\tNULL" << endl;
-				}
-			}
-		}
-
-		cout << "Routes" << endl;
 		for (int i = 0; i < (int)objects.size(); i++)
 		{
 			for (int j = 0; j < (int)objects[i].rigid.size(); j++)
@@ -1335,7 +1237,6 @@ void modelhdl::load_wrl(string filename)
 				for (int k = 0; k < (objects[i].rigid[j].name.size() - objects[i].rigid[j].orientations.size()); k++)
 					objects[i].rigid[j].orientations.insert(objects[i].rigid[j].orientations.begin(), map<double, vec4d>());
 
-				cout << objects[i].rigid[j].name << endl;
 				if (objects[i].rigid[j].geometry.size() > 0 && objects[i].rigid[j].indices.size() > 0)
 				{
 					for (int k = 0; k < (int)objects[i].rigid[j].name.size(); k++)
@@ -1349,7 +1250,6 @@ void modelhdl::load_wrl(string filename)
 
 						if (tloc != routes.end())
 						{
-							cout << "\t" << objects[i].rigid[j].name[k] << " => " << tloc->second.first << endl;
 							bool found = false;
 							for (int i0 = 0; i0 < (int)objects.size() && !found; i0++)
 								for (int j0 = 0; j0 < (int)objects[i0].rigid.size() && !found; j0++)
@@ -1357,23 +1257,13 @@ void modelhdl::load_wrl(string filename)
 									vector<string>::iterator loc = find(objects[i0].rigid[j0].name.begin(), objects[i0].rigid[j0].name.end(), tloc->second.first);
 									if (loc != objects[i0].rigid[j0].name.end() && objects[i0].rigid[j0].positions.size() > 0)
 									{
-										/*if (objects[i].rigid[j].positions[index].size() == 1)
-										{
-											vec3f offset = objects[i].rigid[j].positions[index][0].second;
-											cout << "Translation Offset: " << objects[i].rigid[j].positions[index][0].second << endl;
-											objects[i].rigid[j].positions[index] = objects[i0].rigid[j0].positions[0];
-											for (int k0 = 0; k0 < objects[i].rigid[j].positions[index].size(); k0++)
-												objects[i].rigid[j].positions[index][k0].second += offset;
-										}
-										else*/
-											objects[i].rigid[j].positions[k] = objects[i0].rigid[j0].positions[0];
+										objects[i].rigid[j].positions[k] = objects[i0].rigid[j0].positions[0];
 										found = true;
 									}
 								}
 						}
 						if (rloc != routes.end())
 						{
-							cout << "\t" << objects[i].rigid[j].name[k] << " => " << rloc->second.first << endl;
 							bool found = false;
 							for (int i0 = 0; i0 < (int)objects.size() && !found; i0++)
 								for (int j0 = 0; j0 < (int)objects[i0].rigid.size() && !found; j0++)
@@ -1381,19 +1271,7 @@ void modelhdl::load_wrl(string filename)
 									vector<string>::iterator loc = find(objects[i0].rigid[j0].name.begin(), objects[i0].rigid[j0].name.end(), rloc->second.first);
 									if (loc != objects[i0].rigid[j0].name.end() && objects[i0].rigid[j0].orientations.size() > 0)
 									{
-										/*if (objects[i].rigid[j].orientations[index].size() == 1)
-										{
-											quatf offset(objects[i].rigid[j].orientations[index][0].second);
-											cout << "Rotation Offset: " << index << " " << objects[i].rigid[j].orientations[index][0].second << " " << offset << endl;
-											objects[i].rigid[j].orientations[index] = objects[i0].rigid[j0].orientations[0];
-											for (int k0 = 0; k0 < objects[i].rigid[j].orientations[index].size(); k0++)
-											{
-												cout << quatf(objects[i].rigid[j].orientations[index][k0].second) << " " << rotate_quat(offset, quatf(objects[i].rigid[j].orientations[index][k0].second)) << " " << rotate_quat(offset, quatf(objects[i].rigid[j].orientations[index][k0].second)).axisangle() << endl;
-												objects[i].rigid[j].orientations[index][k0].second = rotate_quat(offset, quatf(objects[i].rigid[j].orientations[index][k0].second)).axisangle();
-											}
-										}
-										else*/
-											objects[i].rigid[j].orientations[k] = objects[i0].rigid[j0].orientations[0];
+										objects[i].rigid[j].orientations[k] = objects[i0].rigid[j0].orientations[0];
 										found = true;
 									}
 								}
@@ -1402,34 +1280,6 @@ void modelhdl::load_wrl(string filename)
 				}
 			}
 		}
-
-		/*for (map<string, string>::iterator i = routes.begin(); i != routes.end(); i++)
-		{
-			//cout << i->first << " => " << i->second << endl;
-			int dot = i->second.find_last_of(".");
-			string event_name = i->second.substr(0, dot);
-			string event_attrib = i->second.substr(dot+1);
-			dot = i->first.find_last_of(".");
-			string object_name = i->first.substr(0, dot);
-			string object_attrib = i->first.substr(dot+1);
-			pair<int, int> event(-1, -1);
-			for (int j = 0; j < (int)objects.size() && event.first < 0; j++)
-				for (int k = 0; k < (int)objects[j].rigid.size() && event.first < 0; k++)
-					if (objects[j].rigid[k].name.find(event_name) != string::npos)
-						event = pair<int, int>(j, k);
-
-			for (int j = 0; j < (int)objects.size(); j++)
-				for (int k = 0; k < (int)objects[j].rigid.size(); k++)
-					if (objects[j].rigid[k].name.find(object_name) != string::npos)
-					{
-						//cout << object_attrib << endl;
-						if (object_attrib == "rotation")
-							objects[j].rigid[k].orientations = objects[event.first].rigid[event.second].orientations;
-						else if (object_attrib == "translation")
-							objects[j].rigid[k].positions = objects[event.first].rigid[event.second].positions;
-					}
-		}*/
-
 
 		for (int i = 0; i < (int)objects.size(); i++)
 		{
@@ -1462,102 +1312,6 @@ void modelhdl::load_wrl(string filename)
 				if (bound[5] < objects[i].bound[5])
 					bound[5] = objects[i].bound[5];
 			}
-		}
-	}
-
-	/*vec3f avg(0.0f, 0.0f, 0.0f);
-	float count = 0.0f;
-	for (int i = 0; i < (int)rigid.size(); i++)
-	{
-		for (int k = 0; k < (int)rigid[i].geometry.size(); k++)
-			avg += (vec3f)rigid[i].geometry[k];
-		count += (float)rigid[i].geometry.size();
-	}
-
-	avg /= count;
-	cout << "LOOK" << avg << endl;
-	for (int j = 0; j < (int)rigid.size(); j++)
-	{
-		for (int k = 0; k < (int)rigid[j].geometry.size(); k++)
-			rigid[j].geometry[k] -= vec8f(avg);
-	}*/
-
-	/*for (int j = 0; j < (int)rigid.size(); j++)
-	{
-		for (int k = 0; k < (int)rigid[j].positions.size(); k++)
-			if (rigid[j].positions[k].size() == 1)
-				rigid[j].positions[k].clear();
-		for (int k = 0; k < (int)rigid[j].orientations.size(); k++)
-			if (rigid[j].orientations[k].size() == 1)
-				rigid[j].orientations[k].clear();
-	}*/
-
-	/*vec3f avg = vec3f(0.0f, 0.0f, 0.0f);
-	float count = 0.0f;
-	mat4f m;
-	for (int j = 0; j < (int)rigid.size(); j++)
-	{
-		for (int k = 0; k < (int)rigid[j].positions.size(); k++)
-			for (int  ((int)rigid[j].positions[k].size() > 0)
-			{
-				avg += rigid[j].positions[k][0].second;
-				count+=1.0f;
-			}
-	}
-	avg /= count;
-
-	for (int j = 0; j < (int)rigid.size(); j++)
-	{
-		if ((int)rigid[j].positions.size() > 0)
-		{
-			for (int l = 0; l < (int)rigid[j].positions[0].size(); l++)
-				rigid[j].positions[0][l].second -= avg;
-			if ((int)rigid[j].positions[0].size() == 0)
-				rigid[j].positions[0].push_back(pair<double, vec3f>(0.0f, -avg));
-		}
-	}*/
-
-	/*bound[0] -= avg[0];
-	bound[1] -= avg[0];
-	bound[2] -= avg[1];
-	bound[3] -= avg[1];
-	bound[4] -= avg[2];
-	bound[5] -= avg[2];
-*/
-	cout << "Final Result" << endl;
-	for (int i = 0; i < rigid.size(); i++)
-	{
-		cout << rigid[i].name << endl;
-		cout << "\t" << rigid[i].geometry.size() << " vertices" << endl;
-		cout << "\t" << rigid[i].indices.size() << " indices" << endl;
-		for (int j = 0; j < rigid[i].name.size(); j++)
-		{
-			cout << rigid[i].name[j] << endl;
-
-			if (j < rigid[i].positions.size())
-			{
-				if (rigid[i].positions[j].size() > 0)
-					cout << "\tposition " << rigid[i].positions[j].size() << " " << rigid[i].positions[j][0] << endl;
-				else
-					cout << "\tposition " << rigid[i].positions[j].size() << " NULL" << endl;
-			}
-
-			if (j < rigid[i].orientations.size())
-			{
-				if (rigid[i].orientations[j].size() > 0)
-					cout << "\trotation " << rigid[i].orientations[j].size() << " " << rigid[i].orientations[j][0] << endl;
-				else
-					cout << "\trotation " << rigid[i].orientations[j].size() << " NULL" << endl;
-			}
-
-			if (j < rigid[i].scale.size())
-				cout << "\tscale " << rigid[i].scale[j] << endl;
-
-			if (j < rigid[i].scale_orientation.size())
-				cout << "\tscale_orientation " << rigid[i].scale_orientation[j] << endl;
-
-			if (j < rigid[i].center.size())
-				cout << "\tcenter " << rigid[i].center[j] << endl;
 		}
 	}
 }
