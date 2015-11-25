@@ -42,11 +42,6 @@ struct quat
 	{
 		this->a = (t)cos(aa[3]/(t)2);
 		this->v = (vec<t, 3>)aa * (t)sin(aa[3]/(t)2);
-
-		if (fabs(1.0 - mag(*this)) > 1e-6)
-		{
-			cout << "Error: " <<  mag((vec<t, 3>)aa) << endl;
-		}
 	}
 
 	~quat()
@@ -305,23 +300,7 @@ quat<t> slerp(quat<t> q0, quat<t> q1, t2 p)
 	{
 		omega = acos(omega);
 		double somega = sin(omega);
-		quat<t> result = (q0*(t)sin(omega - p*omega) + q1*(t)sin(p*omega))/(t)somega;
-
-		if (result.nan() && !q0.nan() && !q1.nan())
-		{
-			cout << "slerp(" << q0 << ", " << q1 << ", " << p << ")" << endl;
-			cout << "dot(q0, q1) = " << dot(q0, q1) << endl;
-			cout << "omega = " << omega << endl;
-			cout << "somega = " << somega << endl;
-			cout << "omega - p*omega = " << omega - p*omega << endl;
-			cout << "sin(omega - p*omega) = " << sin(omega - p*omega) << endl;
-			cout << "sin(p*omega) = " << sin(p*omega) << endl;
-			cout << "q0*(t)sin(omega - p*omega) = " << q0*(t)sin(omega - p*omega) << endl;
-			cout << "q1*(t)sin(p*omega) = " << q1*(t)sin(p*omega) << endl;
-			cout << "result = " << result << endl;
-		}
-
-		return result;
+		return (q0*(t)sin(omega - p*omega) + q1*(t)sin(p*omega))/(t)somega;
 	}
 }
 
@@ -341,50 +320,7 @@ quat<t> squad(quat<t> q0, quat<t> q1, quat<t> q2, quat<t> q3, t2 p)
 	quat<t> S0, S1;
 	S0 = q1*exp((log(q12) + log(q10))/-4.0);
 	S1 = q2*exp((log(q23) + log(q21))/-4.0);
-	quat<t> result = slerp(slerp(q1, q2, p), slerp(S0, S1, p), p*((t2)1-p)*(t2)2);
-
-	if (result.nan() && !q0.nan() && !q1.nan() && !q2.nan() && !q3.nan())
-	{
-		cout << "squad(" << q0 << ", " << q1 << ", " << q2 << ", " << q3 << ", " << p << ")" << endl;
-		cout << mag(q0) << " " << mag(q1) << " " << mag(q2) << " " << mag(q3) << endl;
-		cout << "conj(q1) = " << conj(q1) << endl;
-		cout << "conj(q2) = " << conj(q2) << endl;
-		cout << "conj(q1)*q2 = " << conj(q1)*q2 << endl;
-		cout << "conj(q1)*q0 = " << conj(q1)*q0 << endl;
-		cout << "conj(q2)*q3 = " << conj(q2)*q3 << endl;
-		cout << "conj(q2)*q1 = " << conj(q2)*q1 << endl;
-		cout << "log(conj(q1)*q2) = " << log(conj(q1)*q2) << endl;
-		cout << "log(conj(q1)*q0) = " << log(conj(q1)*q0) << endl;
-		cout << "log(conj(q2)*q3) = " << log(conj(q2)*q3) << endl;
-		cout << "log(conj(q2)*q1) = " << log(conj(q2)*q1) << endl;
-		cout << "-(log(conj(q1)*q2) + log(conj(q1)*q0))/4.0f = " << -(log(conj(q1)*q2) + log(conj(q1)*q0))/4.0 << endl;
-		cout << "-(log(conj(q2)*q3) + log(conj(q2)*q1))/4.0f = " << -(log(conj(q2)*q3) + log(conj(q2)*q1))/4.0 << endl;
-		cout << "exp(-(log(conj(q1)*q2) + log(conj(q1)*q0))/4.0f) = " << exp(-(log(conj(q1)*q2) + log(conj(q1)*q0))/4.0) << endl;
-		cout << "exp(-(log(conj(q2)*q3) + log(conj(q2)*q1))/4.0f) = " << exp(-(log(conj(q2)*q3) + log(conj(q2)*q1))/4.0) << endl;
-		cout << "S0 = " << S0 << endl;
-		cout << "S1 = " << S1 << endl;
-		cout << "slerp(q1, q2, p) = " << slerp(q1, q2, p) << endl;
-		cout << "slerp(S0, S1, p) = " << slerp(S0, S1, p) << endl;
-		cout << "p*(1-p)*2 = " << p*(1-p)*2 << endl;
-		cout << "result = " << result << endl;
-	}
-
-	return result;
-}
-
-template <class t>
-vec<t, 4> rational_map(quat<t> q)
-{
-	double m = ::sqrt(2.0*(1.0-(double)q.a));
-	return vec<t, 4>(q.v[0], q.v[1], q.v[2], (t)1-q.a)/(t)m;
-}
-
-template <class t>
-quat<t> rational_rmap(vec<t, 4> v)
-{
-	vec<t, 3> axis = v;
-	t amag2 = mag2(axis);
-	return quat<t>(2*v[3]*axis, amag2 - v[3]*v[3])/(amag2 + v[3]*v[3]);
+	return slerp(slerp(q1, q2, p), slerp(S0, S1, p), p*((t2)1-p)*(t2)2);
 }
 
 }

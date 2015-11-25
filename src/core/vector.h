@@ -867,52 +867,6 @@ vec<t, s> rol3(vec<t, s> v, vec <at, s> a)
 	return y;
 }
 
-/* lerp
- * (spherical linear interpolation)
- *
- * This calculates a spherical linear interpolation between two
- * vectors v1 and v2 using p as the percentage angle from v1 to
- * v2.
- */
-template <class t, int s>
-vec<t, s> lerp(vec<t, s> v1, vec<t, s> v2, t p)
-{
-	return v1*((t)1-p) + v2*p;
-}
-
-/* slerp
- * (spherical linear interpolation)
- *
- * This calculates a spherical linear interpolation between two
- * vectors v1 and v2 using p as the percentage angle from v1 to
- * v2.
- */
-template <class t, int s>
-vec<t, s> slerp(vec<t, s> v1, vec<t, s> v2, t p)
-{
-	double omega = acos((double)dot(v1, v2));
-	if (fabs(omega) < 1e-3 || fabs(m_pi - omega) < 1e-3)
-		return norm(lerp(v1, v2, p));
-	else
-	{
-		double somega = sin(omega);
-		vec <t, s> ret = v1*sin(omega - p*omega) + v2*sin(p*omega);
-		return ret/somega;
-	}
-}
-
-template <class t, int s>
-vec<t, s> hermite(vec<t, s> v0, vec<t, s> v1, vec<t, s> m0, vec<t, s> m1, t p)
-{
-	t p2 = p*p;
-	t p3 = p2*p;
-	t c0 = (t)2*p3 - (t)3*p2 + (t)1;
-	t c1 = p3 - (t)2*p2 + p;
-	t c2 = (t)-2*p3 + (t)3*p2;
-	t c3 = p3 - p2;
-	return c0*v0 + c1*m0 + c2*v1 + c3*m1;
-}
-
 /* mag
  * (magnitude)
  *
@@ -1061,6 +1015,53 @@ vec<t, 4> homogenize(vec<t, s> v, int offset = 0)
 	result[2] = v[offset+2];
 	result[3] = (t)1;
 	return result;
+}
+
+/* lerp
+ * (spherical linear interpolation)
+ *
+ * This calculates a spherical linear interpolation between two
+ * vectors v1 and v2 using p as the percentage angle from v1 to
+ * v2.
+ */
+template <class t, int s>
+vec<t, s> lerp(vec<t, s> v1, vec<t, s> v2, t p)
+{
+	return v1*((t)1-p) + v2*p;
+}
+
+/* slerp
+ * (linear interpolation)
+ *
+ * This calculates a linear interpolation between two
+ * vectors v1 and v2 using p as the percentage angle from v1 to
+ * v2.
+ */
+template <class t, int s>
+vec<t, s> slerp(vec<t, s> v0, vec<t, s> v1, t p)
+{
+	double omega = (double)dot(v0, v1);
+
+	if (omega > 0.95 || omega < -0.95)
+		return lerp(v0, v1, p);
+	else
+	{
+		omega = acos(omega);
+		double somega = sin(omega);
+		return (v0*(t)sin(omega - p*omega) + v1*(t)sin(p*omega))/(t)somega;
+	}
+}
+
+template <class t, int s>
+vec<t, s> hermite(vec<t, s> v0, vec<t, s> v1, vec<t, s> m0, vec<t, s> m1, t p)
+{
+	t p2 = p*p;
+	t p3 = p2*p;
+	t c0 = (t)2*p3 - (t)3*p2 + (t)1;
+	t c1 = p3 - (t)2*p2 + p;
+	t c2 = (t)-2*p3 + (t)3*p2;
+	t c3 = p3 - p2;
+	return c0*v0 + c1*m0 + c2*v1 + c3*m1;
 }
 
 }

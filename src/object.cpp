@@ -58,7 +58,7 @@ vec3f rigidhdl::get_position(int frame, double pos, double fraction, double step
 		return hermite(loc1->second, loc2->second, m0, m1, (float)fraction);
 	}
 
-	return vec3f(0.0f, 0.0f, 0.0f);
+	return positions[frame].begin()->second;
 }
 
 vec4d rigidhdl::get_orientation(int frame, double pos, double fraction, double step, int method)
@@ -114,7 +114,7 @@ vec4d rigidhdl::get_orientation(int frame, double pos, double fraction, double s
 		return squad(quatd(loc0->second), quatd(loc1->second), quatd(loc2->second), quatd(loc3->second), fraction).axisangle();
 	}
 
-	return vec4d(0.0f, 0.0f, 1.0f, 0.0f);
+	return orientations[frame].begin()->second;
 }
 
 /* draw
