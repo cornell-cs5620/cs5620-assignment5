@@ -42,7 +42,9 @@ sfValue::sfValue(tokenizer &tokens, string type, void *data)
 
 sfValue::~sfValue()
 {
-
+	if (node != NULL)
+		delete node;
+	node = NULL;
 }
 
 void sfValue::parse(tokenizer &tokens, void *data)
@@ -180,6 +182,17 @@ string sfValue::to_string(string tab) const
 parse::syntax *sfValue::clone() const
 {
 	return new sfValue(*this);
+}
+
+sfValue &sfValue::operator=(const sfValue &value)
+{
+	type = value.type;
+	values = value.values;
+	if (value.node != NULL)
+		node = (nodeDeclaration*)value.node->clone();
+	else
+		node = NULL;
+	return *this;
 }
 
 }

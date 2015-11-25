@@ -20,6 +20,7 @@ node::node()
 node::node(tokenizer &tokens, void *data)
 {
 	debug_name = "node";
+
 	parse(tokens, data);
 }
 

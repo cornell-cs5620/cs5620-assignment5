@@ -30,14 +30,21 @@ struct rigidhdl
 	rigidhdl();
 	~rigidhdl();
 
+	vector<string> name;
 	vector<vec8f> geometry;
 	vector<int> indices;
 	string material;
 
-	map<float, vec3f> positions;
-	map<float, vec3f> orientations;
+	vector<map<double, vec3f> > positions;
+	vector<map<double, vec4d> > orientations;
+	vector<vec3f> center;
+	vector<vec3f> scale;
+	vector<vec4d> scale_orientation;
 
-	void draw(float animation_time = 0.0f);
+	vec3f get_position(int frame, double pos, double fraction, double step, int method);
+	vec4d get_orientation(int frame, double pos, double fraction, double step, int method);
+
+	void draw(double pos, double fraction, double step, int position_interpolator=0, int orientation_interpolator=0);
 };
 
 struct objecthdl
@@ -53,13 +60,21 @@ struct objecthdl
 	vec3f orientation;
 	float scale;
 
+	double start_time;
+	double minstep;
+	double animation_length;
+	int position_interpolator;
+	int orientation_interpolator;
+
 	// The bounding box of this object
 	// (left, right, bottom, top, front, back)
 	vec6f bound;
 
-	void draw(const vector<lighthdl*> &lights, float animation_time = 0.0f);
+	void draw(const vector<lighthdl*> &lights);
 	void draw_bound();
 	void draw_normals(bool face = false);
+
+	objecthdl &operator=(objecthdl o);
 };
 
 #endif

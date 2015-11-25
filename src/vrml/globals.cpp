@@ -346,6 +346,20 @@ globals::globals()
 	// Bindable Nodes
 
 	// Background
+	fields.insert(pair<string, field>("Background.set_bind",		field("eventIn",		"SFBool")));
+	fields.insert(pair<string, field>("Background.groundAngle",		field("exposedField",	"MFFloat")));
+	fields.insert(pair<string, field>("Background.groundColor",		field("exposedField",	"MFColor")));
+	fields.insert(pair<string, field>("Background.backUrl",			field("exposedField",	"MFString")));
+	fields.insert(pair<string, field>("Background.bottomUrl",		field("exposedField",	"MFString")));
+	fields.insert(pair<string, field>("Background.frontUrl",		field("exposedField",	"MFString")));
+	fields.insert(pair<string, field>("Background.leftUrl",			field("exposedField",	"MFString")));
+	fields.insert(pair<string, field>("Background.rightUrl",		field("exposedField",	"MFString")));
+	fields.insert(pair<string, field>("Background.topUrl",			field("exposedField",	"MFString")));
+	fields.insert(pair<string, field>("Background.skyAngle",		field("exposedField",	"MFFloat")));
+	fields.insert(pair<string, field>("Background.skyColor",		field("exposedField",	"MFColor")));
+	fields.insert(pair<string, field>("Background.isBound",			field("eventOut",		"SFBool")));
+
+
 	// Fog
 	// NavigationInfo
 	fields.insert(pair<string, field>("NavigationInfo.set_bind",		field("eventIn",		"SFBool")));

@@ -149,11 +149,11 @@ materialhdl *gouraudhdl::clone() const
 phonghdl::phonghdl()
 {
 	type = "phong";
-	emission = vec3f(0.0, 0.0, 0.0);
-	ambient = vec3f(0.1, 0.1, 0.1);
-	diffuse = vec3f(1.0, 1.0, 1.0);
-	specular = vec3f(1.0, 1.0, 1.0);
-	shininess = 1.0;
+	emission = vec3f(0.0f, 0.0f, 0.0f);
+	ambient = vec3f(0.2f, 0.2f, 0.2f);
+	diffuse = vec3f(0.8f, 0.8f, 0.8f);
+	specular = vec3f(0.0f, 0.0f, 0.0f);
+	shininess = 0.2f;
 
 	if (vertex == 0 && fragment == 0 && program == 0)
 	{

@@ -45,7 +45,8 @@ namespace manipulate
 		width = 5,
 		height = 6,
 		front = 7,
-		back = 8
+		back = 8,
+		stepsize = 9
 	};
 }
 
@@ -99,6 +100,7 @@ void reshapefunc(int w, int h)
 	glutPostRedisplay();
 }
 
+bool warp = false;
 void pmotionfunc(int x, int y)
 {
 	if (bound)
@@ -111,26 +113,32 @@ void pmotionfunc(int x, int y)
 		mousex = x;
 		mousey = y;
 
-		bool warp = false;
+		bool set_warp = false;
 		if (mousex > 3*width/4 || mousex < width/4)
 		{
 			mousex = width/2;
-			warp = true;
+			set_warp = true;
 		}
 
 		if (mousey > 3*height/4 || mousey < height/4)
 		{
 			mousey = height/2;
-			warp = true;
+			set_warp = true;
 		}
 
-		if (warp)
-			glutWarpPointer(mousex, mousey);
+		if (!set_warp)
+			warp = false;
 
-		if (scene.active_camera_valid())
+		if (scene.active_camera_valid() && !warp)
 		{
 			scene.cameras[scene.active_camera]->orientation[1] -= (float)deltax/500.0;
 			scene.cameras[scene.active_camera]->orientation[0] -= (float)deltay/500.0;
+		}
+
+		if (set_warp)
+		{
+			glutWarpPointer(mousex, mousey);
+			warp = true;
 		}
 
 		glutPostRedisplay();
@@ -140,34 +148,31 @@ void pmotionfunc(int x, int y)
 		vec3f direction;
 		vec3f position;
 
-		if (scene.active_camera_valid())
+		if (scene.cameras[scene.active_camera]->type == "ortho")
 		{
-			if (scene.cameras[scene.active_camera]->type == "ortho")
-			{
-				GLdouble model[16];
-				GLdouble proj[16];
-				GLint view[4];
-				glGetDoublev(GL_MODELVIEW_MATRIX, model);
-				glGetDoublev(GL_PROJECTION_MATRIX, proj);
-				glGetIntegerv(GL_VIEWPORT, view);
-				vec<double, 3> p;
-				gluUnProject(x, height-y, 0.0f, model, proj, view, &p[0], &p[1], &p[2]);
-				position = p;
-				direction = ror3(vec3f(0.0f, 0.0f, 1.0f), scene.cameras[scene.active_camera]->orientation);
-			}
-			else
-			{
-				GLdouble model[16];
-				GLdouble proj[16];
-				GLint view[4];
-				glGetDoublev(GL_MODELVIEW_MATRIX, model);
-				glGetDoublev(GL_PROJECTION_MATRIX, proj);
-				glGetIntegerv(GL_VIEWPORT, view);
-				vec<double, 3> p;
-				gluUnProject(x, height-y, 0.0f, model, proj, view, &p[0], &p[1], &p[2]);
-				position = scene.cameras[scene.active_camera]->position;
-				direction = norm(p - position);
-			}
+			GLdouble model[16];
+			GLdouble proj[16];
+			GLint view[4];
+			glGetDoublev(GL_MODELVIEW_MATRIX, model);
+			glGetDoublev(GL_PROJECTION_MATRIX, proj);
+			glGetIntegerv(GL_VIEWPORT, view);
+			vec<double, 3> p;
+			gluUnProject(x, height-y, 0.0f, model, proj, view, &p[0], &p[1], &p[2]);
+			position = p;
+			direction = ror3(vec3f(0.0f, 0.0f, 1.0f), scene.cameras[scene.active_camera]->orientation);
+		}
+		else
+		{
+			GLdouble model[16];
+			GLdouble proj[16];
+			GLint view[4];
+			glGetDoublev(GL_MODELVIEW_MATRIX, model);
+			glGetDoublev(GL_PROJECTION_MATRIX, proj);
+			glGetIntegerv(GL_VIEWPORT, view);
+			vec<double, 3> p;
+			gluUnProject(x, height-y, 0.0f, model, proj, view, &p[0], &p[1], &p[2]);
+			position = scene.cameras[scene.active_camera]->position;
+			direction = norm(p - position);
 		}
 
 		int old_active_object = scene.active_object;
@@ -305,6 +310,12 @@ void motionfunc(int x, int y)
 				scene.objects[scene.active_object]->orientation += vec3f(-(float)deltay/100.0, (float)deltax/100.0, 0.0);
 			else if (manipulator == manipulate::scale)
 				scene.objects[scene.active_object]->scale += (float)deltay/100.0;
+			else if (manipulator == manipulate::stepsize)
+			{
+				scene.objects[scene.active_object]->minstep += (float)deltay/100.0;
+				if (scene.objects[scene.active_object]->minstep < 0.0)
+					scene.objects[scene.active_object]->minstep = 0.0;
+			}
 
 			for (int i = 0; i < scene.cameras.size(); i++)
 				if (scene.cameras[i]->model == scene.objects[scene.active_object])
@@ -407,32 +418,32 @@ void idlefunc()
 	{
 		if (keys['w'])
 		{
-			scene.cameras[scene.active_camera]->position += -0.005f*ror3(vec3f(0.0, 0.0, 1.0), scene.cameras[scene.active_camera]->orientation);
+			scene.cameras[scene.active_camera]->position += -0.05f*ror3(vec3f(0.0, 0.0, 1.0), scene.cameras[scene.active_camera]->orientation);
 			change = true;
 		}
 		if (keys['s'])
 		{
-			scene.cameras[scene.active_camera]->position += 0.005f*ror3(vec3f(0.0, 0.0, 1.0), scene.cameras[scene.active_camera]->orientation);
+			scene.cameras[scene.active_camera]->position += 0.05f*ror3(vec3f(0.0, 0.0, 1.0), scene.cameras[scene.active_camera]->orientation);
 			change = true;
 		}
 		if (keys['a'])
 		{
-			scene.cameras[scene.active_camera]->position += -0.005f*ror3(vec3f(1.0, 0.0, 0.0), scene.cameras[scene.active_camera]->orientation);
+			scene.cameras[scene.active_camera]->position += -0.05f*ror3(vec3f(1.0, 0.0, 0.0), scene.cameras[scene.active_camera]->orientation);
 			change = true;
 		}
 		if (keys['d'])
 		{
-			scene.cameras[scene.active_camera]->position += 0.005f*ror3(vec3f(1.0, 0.0, 0.0), scene.cameras[scene.active_camera]->orientation);
+			scene.cameras[scene.active_camera]->position += 0.05f*ror3(vec3f(1.0, 0.0, 0.0), scene.cameras[scene.active_camera]->orientation);
 			change = true;
 		}
 		if (keys['q'])
 		{
-			scene.cameras[scene.active_camera]->position += -0.005f*ror3(vec3f(0.0, 1.0, 0.0), scene.cameras[scene.active_camera]->orientation);
+			scene.cameras[scene.active_camera]->position += -0.05f*ror3(vec3f(0.0, 1.0, 0.0), scene.cameras[scene.active_camera]->orientation);
 			change = true;
 		}
 		if (keys['e'])
 		{
-			scene.cameras[scene.active_camera]->position += 0.005f*ror3(vec3f(0.0, 1.0, 0.0), scene.cameras[scene.active_camera]->orientation);
+			scene.cameras[scene.active_camera]->position += 0.05f*ror3(vec3f(0.0, 1.0, 0.0), scene.cameras[scene.active_camera]->orientation);
 			change = true;
 		}
 	}
@@ -450,8 +461,8 @@ void idlefunc()
 		}
 	}
 
-	if (change)
-		glutPostRedisplay();
+	//if (change)
+	glutPostRedisplay();
 }
 
 void menustatusfunc(int status, int x, int y)
@@ -478,8 +489,11 @@ void canvas_menu(int num)
 		filters[0] = "*.obj";
 		filters[1] = "*.wrl";
 		const char *path = tinyfd_openFileDialog("Load a Model", "", 2, filters, 0);
-		if (path != NULL && strlen(path) > 0)
+		if (path != NULL && path[0] != '\0')
+		{
+			string pathstr = path;
 			scene.objects.push_back(new modelhdl(path));
+		}
 	}
 	else if (num == 6)
 		scene.render_lights = !scene.render_lights;
@@ -487,7 +501,6 @@ void canvas_menu(int num)
 	{
 		scene.lights.push_back(new directionalhdl());
 		scene.objects.push_back(new cylinderhdl(0.25, 1.0, 8));
-		((phonghdl*)scene.objects.back()->material["default"])->emission = vec3f(1.0, 1.0, 1.0);
 		for (int k = 0; k < scene.objects.back()->rigid.size(); k++)
 			for (int i = 0; i < scene.objects.back()->rigid[k].geometry.size(); i++)
 			{
@@ -504,14 +517,12 @@ void canvas_menu(int num)
 	{
 		scene.lights.push_back(new pointhdl());
 		scene.objects.push_back(new spherehdl(0.25, 4, 8));
-		((phonghdl*)scene.objects.back()->material["default"])->emission = vec3f(1.0, 1.0, 1.0);
 		scene.lights.back()->model = scene.objects.back();
 	}
 	else if (num == 9)
 	{
 		scene.lights.push_back(new spothdl());
 		scene.objects.push_back(new pyramidhdl(0.25, 1.0, 8));
-		((phonghdl*)scene.objects.back()->material["default"])->emission = vec3f(1.0, 1.0, 1.0);
 		for (int k = 0; k < scene.objects.back()->rigid.size(); k++)
 			for (int i = 0; i < scene.objects.back()->rigid[k].geometry.size(); i++)
 			{
@@ -744,7 +755,22 @@ void object_menu(int num)
 		}
 		glutPostRedisplay();
 	}
-
+	else if (num == 11 && scene.active_object_valid())
+		scene.objects[scene.active_object]->position_interpolator = 0;
+	else if (num == 12 && scene.active_object_valid())
+		scene.objects[scene.active_object]->position_interpolator = 1;
+	else if (num == 13 && scene.active_object_valid())
+		scene.objects[scene.active_object]->position_interpolator = 2;
+	else if (num == 14 && scene.active_object_valid())
+		scene.objects[scene.active_object]->orientation_interpolator = 0;
+	else if (num == 15 && scene.active_object_valid())
+		scene.objects[scene.active_object]->orientation_interpolator = 1;
+	else if (num == 16 && scene.active_object_valid())
+		scene.objects[scene.active_object]->orientation_interpolator = 2;
+	else if (num == 17 && scene.active_object_valid())
+		scene.objects[scene.active_object]->orientation_interpolator = 3;
+	else if (num == 18)
+		manipulator = manipulate::stepsize;
 }
 
 void color_menu(int num)
@@ -941,13 +967,27 @@ void create_menu()
     glutAddMenuEntry(" Custom       ", 7);
     glutAddMenuEntry(" Texture     ", 6);
 
+    int translation_interpolator_menu_id = glutCreateMenu(object_menu);
+    glutAddMenuEntry(" None       ", 11);
+    glutAddMenuEntry(" LERP       ", 12);
+    glutAddMenuEntry(" Hermite    ", 13);
+
+    int rotation_interpolator_menu_id = glutCreateMenu(object_menu);
+	glutAddMenuEntry(" None  ", 14);
+	glutAddMenuEntry(" LERP  ", 15);
+	glutAddMenuEntry(" SLERP ", 16);
+	glutAddMenuEntry(" SQUAD ", 17);
+
     object_menu_id = glutCreateMenu(object_menu);
-    glutAddSubMenu  (" Material    ", material_menu_id);
-    glutAddMenuEntry(" Set Focus   ", 5);
-    glutAddMenuEntry(" Translate   ", 1);
-    glutAddMenuEntry(" Rotate      ", 2);
-    glutAddMenuEntry(" Scale       ", 3);
-    glutAddMenuEntry(" Delete      ", 0);
+    glutAddSubMenu  (" Material            ", material_menu_id);
+    glutAddSubMenu  (" Translation Interp  ", translation_interpolator_menu_id);
+    glutAddSubMenu  (" Rotation Interp     ", rotation_interpolator_menu_id);
+    glutAddMenuEntry(" Set Focus           ", 5);
+    glutAddMenuEntry(" Translate           ", 1);
+    glutAddMenuEntry(" Rotate              ", 2);
+    glutAddMenuEntry(" Scale               ", 3);
+    glutAddMenuEntry(" Step Size           ", 18);
+    glutAddMenuEntry(" Delete              ", 0);
 
     light_menu_id = glutCreateMenu(object_menu);
     glutAddSubMenu  (" Ambient     ", ambient_id);

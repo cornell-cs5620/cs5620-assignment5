@@ -29,8 +29,6 @@ struct node : parse::syntax
 	node(tokenizer &tokens, void *data = NULL);
 	~node();
 
-	string stmtType;
-	string nodeName;
 	string nodeType;
 	vector<nodeGut> nodeGuts;
 	vector<scriptGut> scriptGuts;

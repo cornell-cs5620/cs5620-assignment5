@@ -149,7 +149,7 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
+                              ambientIntensity 1.000000
                               diffuseColor 1.000000 0.651613 0.129032
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
@@ -377,7 +377,7 @@ info@protozoa.com
                                   {
                                     material Material
                                     {
-                                      ambientIntensity 0.000000
+                                      ambientIntensity 1.000000
                                       diffuseColor 1.000000 0.651613 0.129032
                                       specularColor 0.000000 0.000000 0.000000
                                       emissiveColor 0.000000 0.000000 0.000000
@@ -591,7 +591,7 @@ info@protozoa.com
                                   {
                                     material Material
                                     {
-                                      ambientIntensity 0.000000
+                                      ambientIntensity 1.000000
                                       diffuseColor 1.000000 0.651613 0.129032
                                       specularColor 0.000000 0.000000 0.000000
                                       emissiveColor 0.000000 0.000000 0.000000
@@ -819,8 +819,8 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
-                              diffuseColor 0.161290 0.115088 0.045786
+                              ambientIntensity 1.000000
+                              diffuseColor 0.96774 0.690528 0.274716
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
                               shininess 0.000000
@@ -1574,8 +1574,8 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
-                              diffuseColor 0.161290 0.115088 0.045786
+                              ambientIntensity 1.000000
+                              diffuseColor 0.96774 0.690528 0.274716
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
                               shininess 0.000000
@@ -1638,8 +1638,8 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
-                              diffuseColor 0.161290 0.115088 0.045786
+                              ambientIntensity 1.000000
+                              diffuseColor 0.96774 0.690528 0.274716
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
                               shininess 0.000000
@@ -1825,8 +1825,8 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
-                              diffuseColor 0.161290 0.115088 0.045786
+                              ambientIntensity 1.000000
+                              diffuseColor 0.96774 0.690528 0.274716
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
                               shininess 0.000000
@@ -1910,8 +1910,8 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
-                              diffuseColor 0.161290 0.115088 0.045786
+                              ambientIntensity 1.000000
+                              diffuseColor 0.96774 0.690528 0.274716
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
                               shininess 0.000000
@@ -1977,8 +1977,8 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
-                              diffuseColor 0.161290 0.115088 0.045786
+                              ambientIntensity 1.000000
+                              diffuseColor 0.96774 0.690528 0.274716
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
                               shininess 0.000000
@@ -2077,8 +2077,8 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
-                              diffuseColor 0.161290 0.115088 0.045786
+                              ambientIntensity 1.000000
+                              diffuseColor 0.96774 0.690528 0.274716
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
                               shininess 0.000000
@@ -2145,7 +2145,7 @@ info@protozoa.com
                                   {
                                     material Material
                                     {
-                                      ambientIntensity 0.000000
+                                      ambientIntensity 1.000000
                                       diffuseColor 1.000000 0.651613 0.129032
                                       specularColor 0.000000 0.000000 0.000000
                                       emissiveColor 0.000000 0.000000 0.000000
@@ -2389,8 +2389,8 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
-                              diffuseColor 0.161290 0.115088 0.045786
+                              ambientIntensity 1.000000
+                              diffuseColor 0.96774 0.690528 0.274716
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
                               shininess 0.000000
@@ -3144,8 +3144,8 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
-                              diffuseColor 0.161290 0.115088 0.045786
+                              ambientIntensity 1.000000
+                              diffuseColor 0.96774 0.690528 0.274716
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
                               shininess 0.000000
@@ -3208,8 +3208,8 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
-                              diffuseColor 0.161290 0.115088 0.045786
+                              ambientIntensity 1.000000
+                              diffuseColor 0.96774 0.690528 0.274716
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
                               shininess 0.000000
@@ -3395,8 +3395,8 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
-                              diffuseColor 0.161290 0.115088 0.045786
+                              ambientIntensity 1.000000
+                              diffuseColor 0.96774 0.690528 0.274716
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
                               shininess 0.000000
@@ -3480,8 +3480,8 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
-                              diffuseColor 0.161290 0.115088 0.045786
+                              ambientIntensity 1.000000
+                              diffuseColor 0.96774 0.690528 0.274716
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
                               shininess 0.000000
@@ -3547,8 +3547,8 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
-                              diffuseColor 0.161290 0.115088 0.045786
+                              ambientIntensity 1.000000
+                              diffuseColor 0.96774 0.690528 0.274716
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
                               shininess 0.000000
@@ -3647,8 +3647,8 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
-                              diffuseColor 0.161290 0.115088 0.045786
+                              ambientIntensity 1.000000
+                              diffuseColor 0.96774 0.690528 0.274716
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
                               shininess 0.000000
@@ -3715,7 +3715,7 @@ info@protozoa.com
                                   {
                                     material Material
                                     {
-                                      ambientIntensity 0.000000
+                                      ambientIntensity 1.000000
                                       diffuseColor 1.000000 0.651613 0.129032
                                       specularColor 0.000000 0.000000 0.000000
                                       emissiveColor 0.000000 0.000000 0.000000
@@ -3959,7 +3959,7 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
+                              ambientIntensity 1.000000
                               diffuseColor 1.000000 0.651613 0.129032
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
@@ -4197,7 +4197,7 @@ info@protozoa.com
                               {
                                 material Material
                                 {
-                                  ambientIntensity 0.000000
+                                  ambientIntensity 1.000000
                                   diffuseColor 1.000000 0.651613 0.129032
                                   specularColor 0.000000 0.000000 0.000000
                                   emissiveColor 0.000000 0.000000 0.000000
@@ -4401,7 +4401,7 @@ info@protozoa.com
                               {
                                 material Material
                                 {
-                                  ambientIntensity 0.000000
+                                  ambientIntensity 1.000000
                                   diffuseColor 1.000000 0.651613 0.129032
                                   specularColor 0.000000 0.000000 0.000000
                                   emissiveColor 0.000000 0.000000 0.000000
@@ -4605,7 +4605,7 @@ info@protozoa.com
                               {
                                 material Material
                                 {
-                                  ambientIntensity 0.000000
+                                  ambientIntensity 1.000000
                                   diffuseColor 1.000000 0.651613 0.129032
                                   specularColor 0.000000 0.000000 0.000000
                                   emissiveColor 0.000000 0.000000 0.000000
@@ -4825,7 +4825,7 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
+                              ambientIntensity 1.000000
                               diffuseColor 0.274277 0.616129 0.616129
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
@@ -5171,7 +5171,7 @@ info@protozoa.com
                               {
                                 material Material
                                 {
-                                  ambientIntensity 0.000000
+                                  ambientIntensity 1.000000
                                   diffuseColor 1.000000 0.651613 0.129032
                                   specularColor 0.000000 0.000000 0.000000
                                   emissiveColor 0.000000 0.000000 0.000000
@@ -5450,7 +5450,7 @@ info@protozoa.com
                               {
                                 material Material
                                 {
-                                  ambientIntensity 0.000000
+                                  ambientIntensity 1.000000
                                   diffuseColor 1.000000 0.651613 0.129032
                                   specularColor 0.000000 0.000000 0.000000
                                   emissiveColor 0.000000 0.000000 0.000000
@@ -5554,7 +5554,7 @@ info@protozoa.com
                               {
                                 material Material
                                 {
-                                  ambientIntensity 0.000000
+                                  ambientIntensity 1.000000
                                   diffuseColor 0.274277 0.616129 0.616129
                                   specularColor 0.000000 0.000000 0.000000
                                   emissiveColor 0.000000 0.000000 0.000000
@@ -5776,7 +5776,7 @@ info@protozoa.com
                               {
                                 material Material
                                 {
-                                  ambientIntensity 0.000000
+                                  ambientIntensity 1.000000
                                   diffuseColor 0.274277 0.616129 0.616129
                                   specularColor 0.000000 0.000000 0.000000
                                   emissiveColor 0.000000 0.000000 0.000000
@@ -6034,7 +6034,7 @@ info@protozoa.com
                               {
                                 material Material
                                 {
-                                  ambientIntensity 0.000000
+                                  ambientIntensity 1.000000
                                   diffuseColor 0.274277 0.616129 0.616129
                                   specularColor 0.000000 0.000000 0.000000
                                   emissiveColor 0.000000 0.000000 0.000000
@@ -6294,7 +6294,7 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
+                              ambientIntensity 1.000000
                               diffuseColor 0.274277 0.616129 0.616129
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
@@ -6640,7 +6640,7 @@ info@protozoa.com
                               {
                                 material Material
                                 {
-                                  ambientIntensity 0.000000
+                                  ambientIntensity 1.000000
                                   diffuseColor 1.000000 0.651613 0.129032
                                   specularColor 0.000000 0.000000 0.000000
                                   emissiveColor 0.000000 0.000000 0.000000
@@ -6919,7 +6919,7 @@ info@protozoa.com
                               {
                                 material Material
                                 {
-                                  ambientIntensity 0.000000
+                                  ambientIntensity 1.000000
                                   diffuseColor 1.000000 0.651613 0.129032
                                   specularColor 0.000000 0.000000 0.000000
                                   emissiveColor 0.000000 0.000000 0.000000
@@ -7023,7 +7023,7 @@ info@protozoa.com
                               {
                                 material Material
                                 {
-                                  ambientIntensity 0.000000
+                                  ambientIntensity 1.000000
                                   diffuseColor 0.274277 0.616129 0.616129
                                   specularColor 0.000000 0.000000 0.000000
                                   emissiveColor 0.000000 0.000000 0.000000
@@ -7245,7 +7245,7 @@ info@protozoa.com
                               {
                                 material Material
                                 {
-                                  ambientIntensity 0.000000
+                                  ambientIntensity 1.000000
                                   diffuseColor 0.274277 0.616129 0.616129
                                   specularColor 0.000000 0.000000 0.000000
                                   emissiveColor 0.000000 0.000000 0.000000
@@ -7503,7 +7503,7 @@ info@protozoa.com
                               {
                                 material Material
                                 {
-                                  ambientIntensity 0.000000
+                                  ambientIntensity 1.000000
                                   diffuseColor 0.274277 0.616129 0.616129
                                   specularColor 0.000000 0.000000 0.000000
                                   emissiveColor 0.000000 0.000000 0.000000
@@ -7771,7 +7771,7 @@ info@protozoa.com
                               {
                                 material Material
                                 {
-                                  ambientIntensity 0.000000
+                                  ambientIntensity 1.000000
                                   diffuseColor 1.000000 0.651613 0.129032
                                   specularColor 0.000000 0.000000 0.000000
                                   emissiveColor 0.000000 0.000000 0.000000
@@ -9146,7 +9146,7 @@ info@protozoa.com
                               {
                                 material Material
                                 {
-                                  ambientIntensity 0.000000
+                                  ambientIntensity 1.000000
                                   diffuseColor 1.000000 0.651613 0.129032
                                   specularColor 0.000000 0.000000 0.000000
                                   emissiveColor 0.000000 0.000000 0.000000
@@ -9318,7 +9318,7 @@ info@protozoa.com
                               {
                                 material Material
                                 {
-                                  ambientIntensity 0.000000
+                                  ambientIntensity 1.000000
                                   diffuseColor 1.000000 0.651613 0.129032
                                   specularColor 0.000000 0.000000 0.000000
                                   emissiveColor 0.000000 0.000000 0.000000
@@ -9391,7 +9391,7 @@ info@protozoa.com
                                           {
                                             material Material
                                             {
-                                              ambientIntensity 0.000000
+                                              ambientIntensity 1.000000
                                               diffuseColor 1.000000 0.932259 0.932259
                                               specularColor 0.000000 0.000000 0.000000
                                               emissiveColor 0.000000 0.000000 0.000000
@@ -9836,7 +9836,7 @@ info@protozoa.com
                                           {
                                             material Material
                                             {
-                                              ambientIntensity 0.000000
+                                              ambientIntensity 1.000000
                                               diffuseColor 1.000000 0.932259 0.932259
                                               specularColor 0.000000 0.000000 0.000000
                                               emissiveColor 0.000000 0.000000 0.000000
@@ -9888,7 +9888,7 @@ info@protozoa.com
                                           {
                                             material Material
                                             {
-                                              ambientIntensity 0.000000
+                                              ambientIntensity 1.000000
                                               diffuseColor 1.000000 0.932259 0.932259
                                               specularColor 0.000000 0.000000 0.000000
                                               emissiveColor 0.000000 0.000000 0.000000
@@ -9958,7 +9958,7 @@ info@protozoa.com
                                           {
                                             material Material
                                             {
-                                              ambientIntensity 0.000000
+                                              ambientIntensity 1.000000
                                               diffuseColor 1.000000 0.932259 0.932259
                                               specularColor 0.000000 0.000000 0.000000
                                               emissiveColor 0.000000 0.000000 0.000000
@@ -10008,7 +10008,7 @@ info@protozoa.com
                                           {
                                             material Material
                                             {
-                                              ambientIntensity 0.000000
+                                              ambientIntensity 1.000000
                                               diffuseColor 0.529803 0.523002 0.734694
                                               specularColor 0.000000 0.000000 0.000000
                                               emissiveColor 0.000000 0.000000 0.000000
@@ -10353,7 +10353,7 @@ info@protozoa.com
                                           {
                                             material Material
                                             {
-                                              ambientIntensity 0.000000
+                                              ambientIntensity 1.000000
                                               diffuseColor 0.529803 0.523002 0.734694
                                               specularColor 0.000000 0.000000 0.000000
                                               emissiveColor 0.000000 0.000000 0.000000
@@ -10409,7 +10409,7 @@ info@protozoa.com
                                           {
                                             material Material
                                             {
-                                              ambientIntensity 0.000000
+                                              ambientIntensity 1.000000
                                               diffuseColor 0.529803 0.523002 0.734694
                                               specularColor 0.000000 0.000000 0.000000
                                               emissiveColor 0.000000 0.000000 0.000000
@@ -10754,7 +10754,7 @@ info@protozoa.com
                                           {
                                             material Material
                                             {
-                                              ambientIntensity 0.000000
+                                              ambientIntensity 1.000000
                                               diffuseColor 0.529803 0.523002 0.734694
                                               specularColor 0.000000 0.000000 0.000000
                                               emissiveColor 0.000000 0.000000 0.000000
@@ -10830,7 +10830,7 @@ info@protozoa.com
                                           {
                                             material Material
                                             {
-                                              ambientIntensity 0.000000
+                                              ambientIntensity 1.000000
                                               diffuseColor 1.000000 0.932259 0.932259
                                               specularColor 0.000000 0.000000 0.000000
                                               emissiveColor 0.000000 0.000000 0.000000
@@ -11275,7 +11275,7 @@ info@protozoa.com
                                           {
                                             material Material
                                             {
-                                              ambientIntensity 0.000000
+                                              ambientIntensity 1.000000
                                               diffuseColor 1.000000 0.932259 0.932259
                                               specularColor 0.000000 0.000000 0.000000
                                               emissiveColor 0.000000 0.000000 0.000000
@@ -11327,7 +11327,7 @@ info@protozoa.com
                                           {
                                             material Material
                                             {
-                                              ambientIntensity 0.000000
+                                              ambientIntensity 1.000000
                                               diffuseColor 1.000000 0.932259 0.932259
                                               specularColor 0.000000 0.000000 0.000000
                                               emissiveColor 0.000000 0.000000 0.000000
@@ -11397,7 +11397,7 @@ info@protozoa.com
                                           {
                                             material Material
                                             {
-                                              ambientIntensity 0.000000
+                                              ambientIntensity 1.000000
                                               diffuseColor 1.000000 0.932259 0.932259
                                               specularColor 0.000000 0.000000 0.000000
                                               emissiveColor 0.000000 0.000000 0.000000
@@ -11447,7 +11447,7 @@ info@protozoa.com
                                           {
                                             material Material
                                             {
-                                              ambientIntensity 0.000000
+                                              ambientIntensity 1.000000
                                               diffuseColor 0.529803 0.523002 0.734694
                                               specularColor 0.000000 0.000000 0.000000
                                               emissiveColor 0.000000 0.000000 0.000000
@@ -11792,7 +11792,7 @@ info@protozoa.com
                                           {
                                             material Material
                                             {
-                                              ambientIntensity 0.000000
+                                              ambientIntensity 1.000000
                                               diffuseColor 0.529803 0.523002 0.734694
                                               specularColor 0.000000 0.000000 0.000000
                                               emissiveColor 0.000000 0.000000 0.000000
@@ -11848,7 +11848,7 @@ info@protozoa.com
                                           {
                                             material Material
                                             {
-                                              ambientIntensity 0.000000
+                                              ambientIntensity 1.000000
                                               diffuseColor 0.529803 0.523002 0.734694
                                               specularColor 0.000000 0.000000 0.000000
                                               emissiveColor 0.000000 0.000000 0.000000
@@ -12193,7 +12193,7 @@ info@protozoa.com
                                           {
                                             material Material
                                             {
-                                              ambientIntensity 0.000000
+                                              ambientIntensity 1.000000
                                               diffuseColor 0.529803 0.523002 0.734694
                                               specularColor 0.000000 0.000000 0.000000
                                               emissiveColor 0.000000 0.000000 0.000000
@@ -12249,7 +12249,7 @@ info@protozoa.com
                                   {
                                     material Material
                                     {
-                                      ambientIntensity 0.000000
+                                      ambientIntensity 1.000000
                                       diffuseColor 1.000000 1.000000 1.000000
                                       specularColor 0.000000 0.000000 0.000000
                                       emissiveColor 0.000000 0.000000 0.000000
@@ -12525,7 +12525,7 @@ info@protozoa.com
                                   {
                                     material Material
                                     {
-                                      ambientIntensity 0.000000
+                                      ambientIntensity 1.000000
                                       diffuseColor 1.000000 0.651613 0.129032
                                       specularColor 0.000000 0.000000 0.000000
                                       emissiveColor 0.000000 0.000000 0.000000
@@ -12909,7 +12909,7 @@ info@protozoa.com
                                   {
                                     material Material
                                     {
-                                      ambientIntensity 0.000000
+                                      ambientIntensity 1.000000
                                       diffuseColor 1.000000 0.651613 0.129032
                                       specularColor 0.000000 0.000000 0.000000
                                       emissiveColor 0.000000 0.000000 0.000000
@@ -12956,7 +12956,7 @@ info@protozoa.com
                                       {
                                         material Material
                                         {
-                                          ambientIntensity 0.000000
+                                          ambientIntensity 1.000000
                                           diffuseColor 1.000000 1.000000 1.000000
                                           specularColor 0.000000 0.000000 0.000000
                                           emissiveColor 0.000000 0.000000 0.000000
@@ -13254,7 +13254,7 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
+                              ambientIntensity 1.000000
                               diffuseColor 0.285714 0.149105 0.092737
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
@@ -14387,7 +14387,7 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
+                              ambientIntensity 1.000000
                               diffuseColor 0.285714 0.149105 0.092737
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
@@ -14445,7 +14445,7 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
+                              ambientIntensity 1.000000
                               diffuseColor 0.285714 0.149105 0.092737
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
@@ -14533,7 +14533,7 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
+                              ambientIntensity 1.000000
                               diffuseColor 0.285714 0.149105 0.092737
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
@@ -14607,7 +14607,7 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
+                              ambientIntensity 1.000000
                               diffuseColor 0.000000 0.510204 0.000000
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
@@ -15412,7 +15412,7 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
+                              ambientIntensity 1.000000
                               diffuseColor 0.000000 0.510204 0.000000
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
@@ -15728,7 +15728,7 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
+                              ambientIntensity 1.000000
                               diffuseColor 0.000000 0.510204 0.000000
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
@@ -15810,7 +15810,7 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
+                              ambientIntensity 1.000000
                               diffuseColor 0.000000 0.510204 0.000000
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
@@ -15902,7 +15902,7 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
+                              ambientIntensity 1.000000
                               diffuseColor 0.561224 0.000000 0.000000
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
@@ -16302,7 +16302,7 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
+                              ambientIntensity 1.000000
                               diffuseColor 0.561224 0.000000 0.000000
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
@@ -16364,7 +16364,7 @@ info@protozoa.com
                           {
                             material Material
                             {
-                              ambientIntensity 0.000000
+                              ambientIntensity 1.000000
                               diffuseColor 0.775510 0.775510 0.775510
                               specularColor 0.000000 0.000000 0.000000
                               emissiveColor 0.000000 0.000000 0.000000
@@ -16989,7 +16989,7 @@ DEF s04Clock TimeSensor {
 ROUTE floopsSensor.touchTime TO s04Clock.startTime
 DEF pelvisPosInterp PositionInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -17506,7 +17506,7 @@ ROUTE s04Clock.fraction_changed TO pelvisPosInterp.set_fraction
 ROUTE pelvisPosInterp.value_changed TO pelvis.set_translation
 DEF pelvisOrientInterp OrientationInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -18023,7 +18023,7 @@ ROUTE s04Clock.fraction_changed TO pelvisOrientInterp.set_fraction
 ROUTE pelvisOrientInterp.value_changed TO pelvis.set_rotation
 DEF leg_l_uprOrientInterp OrientationInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -18540,7 +18540,7 @@ ROUTE s04Clock.fraction_changed TO leg_l_uprOrientInterp.set_fraction
 ROUTE leg_l_uprOrientInterp.value_changed TO leg_l_upr.set_rotation
 DEF leg_r_uprOrientInterp OrientationInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -19057,7 +19057,7 @@ ROUTE s04Clock.fraction_changed TO leg_r_uprOrientInterp.set_fraction
 ROUTE leg_r_uprOrientInterp.value_changed TO leg_r_upr.set_rotation
 DEF foot_rPosInterp PositionInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -19574,7 +19574,7 @@ ROUTE s04Clock.fraction_changed TO foot_rPosInterp.set_fraction
 ROUTE foot_rPosInterp.value_changed TO foot_r.set_translation
 DEF foot_rOrientInterp OrientationInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -20091,7 +20091,7 @@ ROUTE s04Clock.fraction_changed TO foot_rOrientInterp.set_fraction
 ROUTE foot_rOrientInterp.value_changed TO foot_r.set_rotation
 DEF leg_r_lwrPosInterp PositionInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -20608,7 +20608,7 @@ ROUTE s04Clock.fraction_changed TO leg_r_lwrPosInterp.set_fraction
 ROUTE leg_r_lwrPosInterp.value_changed TO leg_r_lwr.set_translation
 DEF leg_r_lwrOrientInterp OrientationInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -21125,7 +21125,7 @@ ROUTE s04Clock.fraction_changed TO leg_r_lwrOrientInterp.set_fraction
 ROUTE leg_r_lwrOrientInterp.value_changed TO leg_r_lwr.set_rotation
 DEF leg_r_lwrScaleInterp PositionInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -21642,7 +21642,7 @@ ROUTE s04Clock.fraction_changed TO leg_r_lwrScaleInterp.set_fraction
 ROUTE leg_r_lwrScaleInterp.value_changed TO leg_r_lwr.set_scale
 DEF foot_lPosInterp PositionInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -22159,7 +22159,7 @@ ROUTE s04Clock.fraction_changed TO foot_lPosInterp.set_fraction
 ROUTE foot_lPosInterp.value_changed TO foot_l.set_translation
 DEF foot_lOrientInterp OrientationInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -22676,7 +22676,7 @@ ROUTE s04Clock.fraction_changed TO foot_lOrientInterp.set_fraction
 ROUTE foot_lOrientInterp.value_changed TO foot_l.set_rotation
 DEF leg_l_lwrPosInterp PositionInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -23193,7 +23193,7 @@ ROUTE s04Clock.fraction_changed TO leg_l_lwrPosInterp.set_fraction
 ROUTE leg_l_lwrPosInterp.value_changed TO leg_l_lwr.set_translation
 DEF leg_l_lwrOrientInterp OrientationInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -23710,7 +23710,7 @@ ROUTE s04Clock.fraction_changed TO leg_l_lwrOrientInterp.set_fraction
 ROUTE leg_l_lwrOrientInterp.value_changed TO leg_l_lwr.set_rotation
 DEF leg_l_lwrScaleInterp PositionInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -24227,7 +24227,7 @@ ROUTE s04Clock.fraction_changed TO leg_l_lwrScaleInterp.set_fraction
 ROUTE leg_l_lwrScaleInterp.value_changed TO leg_l_lwr.set_scale
 DEF chestPosInterp PositionInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -24744,7 +24744,7 @@ ROUTE s04Clock.fraction_changed TO chestPosInterp.set_fraction
 ROUTE chestPosInterp.value_changed TO chest.set_translation
 DEF chestOrientInterp OrientationInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -25261,7 +25261,7 @@ ROUTE s04Clock.fraction_changed TO chestOrientInterp.set_fraction
 ROUTE chestOrientInterp.value_changed TO chest.set_rotation
 DEF arm_l_uprOrientInterp OrientationInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -25778,7 +25778,7 @@ ROUTE s04Clock.fraction_changed TO arm_l_uprOrientInterp.set_fraction
 ROUTE arm_l_uprOrientInterp.value_changed TO arm_l_upr.set_rotation
 DEF arm_r_uprOrientInterp OrientationInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -26295,7 +26295,7 @@ ROUTE s04Clock.fraction_changed TO arm_r_uprOrientInterp.set_fraction
 ROUTE arm_r_uprOrientInterp.value_changed TO arm_r_upr.set_rotation
 DEF neckPosInterp PositionInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -26812,7 +26812,7 @@ ROUTE s04Clock.fraction_changed TO neckPosInterp.set_fraction
 ROUTE neckPosInterp.value_changed TO neck.set_translation
 DEF neckOrientInterp OrientationInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -27329,7 +27329,7 @@ ROUTE s04Clock.fraction_changed TO neckOrientInterp.set_fraction
 ROUTE neckOrientInterp.value_changed TO neck.set_rotation
 DEF neckScaleInterp PositionInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -27846,7 +27846,7 @@ ROUTE s04Clock.fraction_changed TO neckScaleInterp.set_fraction
 ROUTE neckScaleInterp.value_changed TO neck.set_scale
 DEF hand_lPosInterp PositionInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -28363,7 +28363,7 @@ ROUTE s04Clock.fraction_changed TO hand_lPosInterp.set_fraction
 ROUTE hand_lPosInterp.value_changed TO hand_l.set_translation
 DEF hand_lOrientInterp OrientationInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -28880,7 +28880,7 @@ ROUTE s04Clock.fraction_changed TO hand_lOrientInterp.set_fraction
 ROUTE hand_lOrientInterp.value_changed TO hand_l.set_rotation
 DEF arm_l_lwrPosInterp PositionInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -29397,7 +29397,7 @@ ROUTE s04Clock.fraction_changed TO arm_l_lwrPosInterp.set_fraction
 ROUTE arm_l_lwrPosInterp.value_changed TO arm_l_lwr.set_translation
 DEF arm_l_lwrOrientInterp OrientationInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -29914,7 +29914,7 @@ ROUTE s04Clock.fraction_changed TO arm_l_lwrOrientInterp.set_fraction
 ROUTE arm_l_lwrOrientInterp.value_changed TO arm_l_lwr.set_rotation
 DEF hand_rPosInterp PositionInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -30431,7 +30431,7 @@ ROUTE s04Clock.fraction_changed TO hand_rPosInterp.set_fraction
 ROUTE hand_rPosInterp.value_changed TO hand_r.set_translation
 DEF hand_rOrientInterp OrientationInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -30948,7 +30948,7 @@ ROUTE s04Clock.fraction_changed TO hand_rOrientInterp.set_fraction
 ROUTE hand_rOrientInterp.value_changed TO hand_r.set_rotation
 DEF arm_r_lwrPosInterp PositionInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -31465,7 +31465,7 @@ ROUTE s04Clock.fraction_changed TO arm_r_lwrPosInterp.set_fraction
 ROUTE arm_r_lwrPosInterp.value_changed TO arm_r_lwr.set_translation
 DEF arm_r_lwrOrientInterp OrientationInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -31982,7 +31982,7 @@ ROUTE s04Clock.fraction_changed TO arm_r_lwrOrientInterp.set_fraction
 ROUTE arm_r_lwrOrientInterp.value_changed TO arm_r_lwr.set_rotation
 DEF headPosInterp PositionInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -32499,7 +32499,7 @@ ROUTE s04Clock.fraction_changed TO headPosInterp.set_fraction
 ROUTE headPosInterp.value_changed TO head.set_translation
 DEF headOrientInterp OrientationInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -33016,7 +33016,7 @@ ROUTE s04Clock.fraction_changed TO headOrientInterp.set_fraction
 ROUTE headOrientInterp.value_changed TO head.set_rotation
 DEF eyeball_lOrientInterp OrientationInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -33533,7 +33533,7 @@ ROUTE s04Clock.fraction_changed TO eyeball_lOrientInterp.set_fraction
 ROUTE eyeball_lOrientInterp.value_changed TO eyeball_l.set_rotation
 DEF lid_upr_lOrientInterp OrientationInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -34050,7 +34050,7 @@ ROUTE s04Clock.fraction_changed TO lid_upr_lOrientInterp.set_fraction
 ROUTE lid_upr_lOrientInterp.value_changed TO lid_upr_l.set_rotation
 DEF lid_lwr_lOrientInterp OrientationInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -34567,7 +34567,7 @@ ROUTE s04Clock.fraction_changed TO lid_lwr_lOrientInterp.set_fraction
 ROUTE lid_lwr_lOrientInterp.value_changed TO lid_lwr_l.set_rotation
 DEF eyeball_rOrientInterp OrientationInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -35084,7 +35084,7 @@ ROUTE s04Clock.fraction_changed TO eyeball_rOrientInterp.set_fraction
 ROUTE eyeball_rOrientInterp.value_changed TO eyeball_r.set_rotation
 DEF lid_upr_rOrientInterp OrientationInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -35601,7 +35601,7 @@ ROUTE s04Clock.fraction_changed TO lid_upr_rOrientInterp.set_fraction
 ROUTE lid_upr_rOrientInterp.value_changed TO lid_upr_r.set_rotation
 DEF lid_lwr_rOrientInterp OrientationInterpolator
 {
-  key,
+  key
   [
     0
     0.004,
@@ -36118,7 +36118,7 @@ ROUTE s04Clock.fraction_changed TO lid_lwr_rOrientInterp.set_fraction
 ROUTE lid_lwr_rOrientInterp.value_changed TO lid_lwr_r.set_rotation
 DEF jawOrientInterp OrientationInterpolator
 {
-  key,
+  key
   [
     0
     0.004,

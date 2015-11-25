@@ -39,6 +39,8 @@ struct sfValue : parse::syntax
 
 	string to_string(string tab = "") const;
 	parse::syntax *clone() const;
+
+	sfValue &operator=(const sfValue &value);
 };
 
 }
