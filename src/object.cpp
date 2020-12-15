@@ -43,10 +43,13 @@ vec3f rigidhdl::get_position(int frame, double pos, double fraction, double step
 	}
 	else if (method == 2) // hermite
 	{
-		map<double, vec3f>::iterator loc0 = positions[frame].lower_bound(pos);
-		map<double, vec3f>::iterator loc1 = positions[frame].lower_bound(pos + step);
-		map<double, vec3f>::iterator loc2 = positions[frame].lower_bound(pos + 2.0*step);
-		map<double, vec3f>::iterator loc3 = positions[frame].lower_bound(pos + 3.0*step);
+		if (pos - step < positions[frame].begin()->first)
+			return positions[frame].begin()->second;
+
+		map<double, vec3f>::iterator loc0 = positions[frame].lower_bound(pos - step);
+		map<double, vec3f>::iterator loc1 = positions[frame].lower_bound(pos);
+		map<double, vec3f>::iterator loc2 = positions[frame].lower_bound(pos + step);
+		map<double, vec3f>::iterator loc3 = positions[frame].lower_bound(pos + 2.0*step);
 
 		loc0--;
 		loc1--;
@@ -59,10 +62,13 @@ vec3f rigidhdl::get_position(int frame, double pos, double fraction, double step
 	}
 	else if (method == 3) // catmull rom
 	{
-		map<double, vec3f>::iterator loc0 = positions[frame].lower_bound(pos);
-		map<double, vec3f>::iterator loc1 = positions[frame].lower_bound(pos + step);
-		map<double, vec3f>::iterator loc2 = positions[frame].lower_bound(pos + 2.0*step);
-		map<double, vec3f>::iterator loc3 = positions[frame].lower_bound(pos + 3.0*step);
+		if (pos - step < positions[frame].begin()->first)
+			return positions[frame].begin()->second;
+
+		map<double, vec3f>::iterator loc0 = positions[frame].lower_bound(pos - step);
+		map<double, vec3f>::iterator loc1 = positions[frame].lower_bound(pos);
+		map<double, vec3f>::iterator loc2 = positions[frame].lower_bound(pos + step);
+		map<double, vec3f>::iterator loc3 = positions[frame].lower_bound(pos + 2.0*step);
 
 		loc0--;
 		loc1--;
@@ -112,10 +118,13 @@ vec4d rigidhdl::get_orientation(int frame, double pos, double fraction, double s
 	}
 	else if (method == 3) // squad
 	{
-		map<double, vec4d>::iterator loc0 = orientations[frame].lower_bound(pos);
-		map<double, vec4d>::iterator loc1 = orientations[frame].lower_bound(pos + step);
-		map<double, vec4d>::iterator loc2 = orientations[frame].lower_bound(pos + 2.0*step);
-		map<double, vec4d>::iterator loc3 = orientations[frame].lower_bound(pos + 3.0*step);
+		if (pos - step < orientations[frame].begin()->first)
+			return orientations[frame].begin()->second;
+
+		map<double, vec4d>::iterator loc0 = orientations[frame].lower_bound(pos - step);
+		map<double, vec4d>::iterator loc1 = orientations[frame].lower_bound(pos);
+		map<double, vec4d>::iterator loc2 = orientations[frame].lower_bound(pos + step);
+		map<double, vec4d>::iterator loc3 = orientations[frame].lower_bound(pos + 2.0*step);
 
 		loc0--;
 		loc1--;
